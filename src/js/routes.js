@@ -43,7 +43,7 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider',
             })
             .state('campaigns', {
                 url: '/campaigns',
-                templateUrl: 'templates/campaign-manage.html',
+                templateUrl: 'templates/campaign.manage.html',
                 controller: 'CampaignCtrl'
             });
     }

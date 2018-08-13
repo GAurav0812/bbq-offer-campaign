@@ -15,6 +15,7 @@
   <link rel="stylesheet" type="text/css" href="components/rdash-ui/dist/css/rdash.min.css">
   <link rel="stylesheet" type="text/css" href="components/rdash-ui/dist/css/rdash.min.css">
   <link rel="stylesheet" type="text/css" href="css/login.css">
+  <link rel="stylesheet" type="text/css" href="css/layout.css">
   <!-- endbuild -->
   <!-- SCRIPTS -->
   <!-- build:js lib/js/main.min.js -->
@@ -39,14 +40,17 @@
           </a>
         </li>
         <li class="sidebar-title"><span>NAVIGATION</span></li>
-        <li class="sidebar-list">
+        <li class="sidebar-list" ui-sref-active="selectedMenu">
           <a href="#/dashboard">Dashboard <span class="menu-icon fa fa-tachometer"></span></a>
         </li>
-        <li class="sidebar-list">
-          <a href="#/questions">Questions <span class="menu-icon fa fa-question-circle"></span></a>
+        <li class="sidebar-list" ui-sref-active="selectedMenu">
+          <a href="#/questions">Question <span class="menu-icon fa fa-question-circle"></span></a>
         </li>
-        <li class="sidebar-list">
-          <a href="#/templates">Templates <span class="menu-icon fa fa-clipboard"></span></a>
+        <li class="sidebar-list" ui-sref-active="selectedMenu">
+          <a href="#/templates">Template <span class="menu-icon fa fa-clipboard"></span></a>
+        </li>
+        <li class="sidebar-list" ui-sref-active="selectedMenu">
+          <a href="#/campaigns">Campaign <span class="menu-icon fa fa-tags"></span></a>
         </li>
       </ul>
       <div class="sidebar-footer">
