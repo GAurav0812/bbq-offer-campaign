@@ -4,7 +4,7 @@
  */
 
 angular
-    .module('RDash')
+    .module('BBQCamp')
     .directive('rdLoading', rdLoading);
 
 function rdLoading() {

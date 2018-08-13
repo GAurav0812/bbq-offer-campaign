@@ -3,7 +3,7 @@
  */
 
 angular
-    .module('RDash')
+    .module('BBQCamp')
     .controller('HomeCtrl', ['$scope', HomeCtrl]);
 
 function HomeCtrl($scope) {

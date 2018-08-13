@@ -3,7 +3,7 @@
  */
 
 angular
-    .module('RDash')
+    .module('BBQCamp')
     .directive('rdWidgetBody', rdWidgetBody);
 
 function rdWidgetBody() {

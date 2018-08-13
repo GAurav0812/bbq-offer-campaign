@@ -3,7 +3,7 @@
  */
 
 angular
-    .module('RDash')
+    .module('BBQCamp')
     .controller('CampaignCtrl', ['$scope', CampaignCtrl]);
 
 function CampaignCtrl($scope) {
