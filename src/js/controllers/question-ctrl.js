@@ -3,7 +3,7 @@
  */
 
 angular
-    .module('BBQCamp')
+    .module('RDash')
     .controller('QuestionCtrl', ['$scope', QuestionCtrl]);
 
 function QuestionCtrl($scope) {

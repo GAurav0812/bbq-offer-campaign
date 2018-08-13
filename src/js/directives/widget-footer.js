@@ -3,7 +3,7 @@
  */
 
 angular
-    .module('BBQCamp')
+    .module('RDash')
     .directive('rdWidgetFooter', rdWidgetFooter);
 
 function rdWidgetFooter() {

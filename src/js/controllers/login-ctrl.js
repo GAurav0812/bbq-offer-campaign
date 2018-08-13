@@ -3,7 +3,7 @@
  */
 
 angular
-    .module('BBQCamp')
+    .module('RDash')
     .controller('LoginCtrl', ['$scope', LoginCtrl]);
 
 function LoginCtrl($scope) {

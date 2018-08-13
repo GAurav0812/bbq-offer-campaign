@@ -3,7 +3,7 @@
  */
 
 angular
-    .module('BBQCamp')
+    .module('RDash')
     .controller('TemplateCtrl', ['$scope', TemplateCtrl]);
 
 function TemplateCtrl($scope) {

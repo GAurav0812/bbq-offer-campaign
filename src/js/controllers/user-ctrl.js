@@ -3,7 +3,7 @@
  */
 
 angular
-    .module('BBQCamp')
+    .module('RDash')
     .controller('UserCtrl', ['$scope', UserCtrl]);
 
 function UserCtrl($scope) {

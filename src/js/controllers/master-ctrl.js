@@ -2,7 +2,7 @@
  * Master Controller
  */
 
-angular.module('BBQCamp')
+angular.module('RDash')
     .controller('MasterCtrl', ['$scope', '$cookieStore', MasterCtrl]);
 
 function MasterCtrl($scope, $cookieStore) {

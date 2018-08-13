@@ -3,7 +3,7 @@
 /**
  * Route configuration for the RDash module.
  */
-angular.module('BBQCamp').config(['$stateProvider', '$urlRouterProvider',
+angular.module('RDash').config(['$stateProvider', '$urlRouterProvider',
     function ($stateProvider, $urlRouterProvider) {
 
         // For unmatched routes
