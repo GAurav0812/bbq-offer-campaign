@@ -36,10 +36,15 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider',
                 templateUrl: 'templates/questions.html',
                 controller: 'QuestionCtrl'
             })
-            .state('createQuestion.', {
-                url: '/question/create',
-                templateUrl: 'templates/question-create.html',
+            .state('createQuestion', {
+                url: '/question/add',
+                templateUrl: 'templates/question.create.html',
                 controller: 'QuestionCtrl'
+            })
+            .state('createTemplate', {
+                url: '/template/add',
+                templateUrl: 'templates/template.create.html',
+                controller: 'TemplateCtrl'
             })
             .state('campaigns', {
                 url: '/campaigns',

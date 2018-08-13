@@ -1,27 +1,60 @@
 <div class="row">
   <div class="col-lg-12">
     <rd-widget>
-      <rd-widget-header icon="fa-tasks" title="Servers">
-        <a href="#">Manage</a>
+      <rd-widget-header icon="fa-question-circle" title="Questionnaire ">
+        <a href="#/question/add">Add</a>
       </rd-widget-header>
       <rd-widget-body classes="medium no-padding">
         <div class="table-responsive">
-          <table class="table">
+          <table class="table table-responsive table-striped" st-table="questionListsData"
+                 st-safe-src="questionListsMasterData">
+            <thead>
+            <tr class="sortable ">
+              <th class="table-id" st-sort="id"><b>ID</b></th>
+              <th st-sort="questionDesc"><b>QUESTION</b></th>
+              <th st-sort="questionType"><b>QUESTION TYPE</b></th>
+              <th><b>ACTION</b></th>
+            </tr>
+
+            <tr>
+              <th></th>
+              <th><input st-search="questionDesc" placeholder="Search Question"
+                         class="input-sm form-control search-input"
+                         type="search"/></th>
+              <th><select st-search="questionType" st-input-event="change" data-ng-options="item.id as item.text for item in QuestionTypeOptions track by item.id" st-delay="0" ng-model="dummy" class="input-sm form-control" >
+                <option value="">
+                  All
+                </option>
+              </select>
+              </th>
+              <!--       <th><input st-search="questionType" placeholder="Search Question type"
+                                class="input-sm form-control search-input"
+                                type="search"/></th>-->
+              <th></th>
+            </tr>
+            </thead>
             <tbody>
-              <tr><td>RDVMPC001</td><td>238.103.133.37</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDVMPC002</td><td>68.66.63.170</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDVMPC003</td><td>76.117.212.33</td><td><span tooltip="Server Down!" class="text-danger"><i class="fa fa-warning"></i></span></td></tr>
-              <tr><td>RDPHPC001</td><td>91.88.224.5</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDESX001</td><td>197.188.15.93</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDESX002</td><td>168.85.154.251</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDESX003</td><td>209.25.191.61</td><td><span tooltip="Server Down!" class="text-danger"><i class="fa fa-warning"></i></span></td></tr>
-              <tr><td>RDESX004</td><td>252.37.192.235</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDTerminal01</td><td>139.71.18.207</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-              <tr><td>RDTerminal02</td><td>136.80.122.212</td><td><span tooltip="Could not connect!" class="text-warning"><i class="fa fa-flash"></i></span></td></tr>
-              <tr><td>RDDomainCont01</td><td>196.80.245.33</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
+            <tr ng-repeat="item in questionListsData">
+              <td>{{item.id}}</td>
+              <td>{{item.questionDesc}}</td>
+              <td>{{item.questionType | answerTypeFullForm}}</td>
+              <td>
+                <button class="btn btn-primary btn-xs btn-raised" data-toggle="modal"
+                        ng-click="editQuestionData(item)" data-toggle="tooltip" title=" Edit Question Information"><i
+                        class="fa fa-pencil fa-lg"></i>
+                </button>
+              </td>
+            </tr>
             </tbody>
+            <tfoot>
+            <tr>
+              <td colspan="4" class="text-center ">
+                <div st-pagination="" st-items-by-page="questionPageSize" st-displayed-pages="5"></div>
+              </td>
+            </tr>
+            </tfoot>
           </table>
-        </div>      
+        </div>
       </rd-widget-body>
       <rd-widget-footer>
         <ul class="pagination pagination-sm pull-right">
