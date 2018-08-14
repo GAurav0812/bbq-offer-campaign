@@ -4,9 +4,9 @@
 
 angular
     .module('RDash')
-    .controller('QuestionCtrl', ['$scope', QuestionCtrl]);
+    .controller('HeaderCtrl', ['$scope', HeaderCtrl]);
 
-function QuestionCtrl($scope) {
+function HeaderCtrl($scope) {
     $scope.alerts = [{
         type: 'success',
         msg: 'Thanks for visiting! Feel free to create pull requests to improve the dashboard!'

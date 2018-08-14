@@ -1,0 +1,145 @@
+<div class="col-sm-12">
+    <button class="btn btn-primary btn-sm" ng-click="goToQuestionListPage()"><i
+            class="fa fa-arrow-left fa-lg"></i> Back
+    </button>
+</div>
+<br><br>
+<div class="col-sm-12">
+    <div class="panel profile-panel animated zoomIn">
+        <div class="panel-heading panel-background">
+            <h3 class="panel-title">Create Question</h3>
+        </div>
+        <div class="panel-body">
+            <form name="newQuestion.form" class="form-horizontal" ng-submit="createQuestion(newQuestion.form.$valid)"
+                  novalidate>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <h6 class="note-text">Note: * Fields are Mandatory</h6>
+                        Enter Question<span class="note-text">*</span>
+                        <div ng-class="{'has-error': newQuestion.form.questionDesc.$invalid && (newQuestion.form.questionDesc.$dirty || newQuestion.form.$submitted)}">
+                            <input class="form-control" name="questionDesc"
+                                   ng-model="newQuestion.info.questionDesc" minlength="1" required>
+                            <span class="help-block error-block basic-block">Question is required.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        Subject Question Type<span class="note-text">*</span>
+                        <div ng-class="{'has-error': newQuestion.form.questionType.$invalid && (newQuestion.form.questionType.$dirty || newQuestion.form.$submitted)}">
+                            <select class="form-control" ng-model="newQuestion.info.questionType"
+                                    id="questionType" name="questionType" ng-change="setAnswerSymbol()"
+                                    ng-options="g.id as g.text for g in QuestionTypeOptions" required>
+                                <option value="">Select Question Type</option>
+                            </select>
+                            <span class="help-block error-block basic-block">Please select question answer type.</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4" ng-hide="itsOpenText">
+                        Answer Symbol<span class="note-text">*</span>
+                        <div ng-class="{'has-error': newQuestion.form.answerSymbol.$invalid && (newQuestion.form.answerSymbol.$dirty || newQuestion.form.$submitted)}">
+                            <select class="form-control" ng-model="newQuestion.info.answerSymbol"
+                                    id="answerSymbol" name="answerSymbol"
+                                    ng-options="g.id as g.text for g in SymbolTypeOptions" required>
+                                <option value="">Select Answer Symbol Type</option>
+                            </select>
+                            <span class="help-block error-block basic-block">Please select answer symbol.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" ng-hide="getQuestionType()==true">
+                    <div class="col-sm-12">
+                        <div ng-class="{'has-error': newQuestion.form.answerOption.$invalid && (newQuestion.form.answerOption.$dirty || newQuestion.form.$submitted)}">
+                            <table>
+                                <tr>
+                                    <td ng-hide="isSingleRating">
+                                        Enter Value<span class="note-text">*</span>
+                                    </td>
+                                    <td ng-hide="isSingleSelect">
+                                        Enter Rating<span class="note-text">*</span>
+                                    </td>
+                                    <td ng-hide="isSingleSelect">
+                                        Enter Weightage<span class="note-text">*</span>
+                                    </td>
+
+                                </tr>
+                                <tr ng-repeat="name in newQuestion.info.answerOption track by $index">
+                                    <td class="col-md-3" ng-hide="isSingleRating" >
+                                        <span ng-show="isSingleSelect" ><input type="checkbox" ng-model="newQuestion.info.answerOption[$index].threshold"  ng-true-value="'1'" ng-false-value="''"/> SMS threshold?</span>
+                                        <input type="text"
+                                               class="form-control "
+                                               style="margin-left: -15px;margin-bottom: 8px"
+                                               ng-model="newQuestion.info.answerOption[$index].label"
+                                               placeholder="Enter Value"></td>
+                                    <td class="col-md-3" ng-hide="isSingleSelect"><input type="number"
+                                                                                         class="form-control"
+                                                                                         ng-model="newQuestion.info.answerOption[$index].rating"
+                                                                                         style="margin-left: -15px;margin-bottom: 8px"
+                                                                                         placeholder="Enter Rating">
+                                    </td>
+                                    <td class="col-md-3" ng-hide="isSingleSelect"><input type="number"
+                                                                                         class="form-control"
+                                                                                         ng-model="newQuestion.info.answerOption[$index].weightage"
+                                                                                         style="margin-left: -15px;margin-bottom: 8px"
+                                                                                         placeholder="Enter Weightage">
+                                    </td>
+                                    <td class="col-md-1">
+                                        <span ng-show="isSingleSelect" >&nbsp;</span>
+                                        <input type="button" class="form-control"
+                                               ng-if="!isSingleRating"
+                                               ng-click="addRow($index)" value="Add Option"
+                                               style="margin-left: -15px;margin-bottom: 8px; margin-right:10px"
+                                               ng-show="$last">
+                                    </td>
+                                    <td class="col-md-1 ">
+                                        <span ng-show="isSingleSelect" >&nbsp;</span>
+                                        <input type="button" class="form-control"
+                                               ng-if="!isSingleRating"
+                                               ng-click="deleteRow($event,$index)" value="Delete"
+                                               style="margin-left: -15px; margin-right:10px;margin-bottom: 8px"
+                                               ng-show="$index != 0"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" ng-show="isRatingQues">
+                    <div class="col-sm-6">
+                        SMS threshold<span class="optional-text">  (optional)</span>
+                        <input type="number"
+                               class="form-control"
+                               ng-model="newQuestion.ratingThreshold"
+                               placeholder="Enter Rating Threshold">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        Parent Question<span class="optional-text">  (optional)</span>
+                        <select class="form-control" ng-model="selected.parentQuestion"
+                                name="parentQuestionId"
+                                ng-options="item as item.questionDesc for item in questionListsData"
+                                ng-change="checkAnswersTypeForQuestion()"
+                                required>
+                            <option value="">Select Parent Question</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6" ng-if="isLoadingParentAnswers">
+                        Parent Answer<span class="optional-text"> (optional)</span>
+                        <select class="form-control" ng-model="selected.parentAnswer"
+                                name="parentAnswerId"
+                                ng-options="item as item.answerDesc for item in answerListByQuestion">
+                            <option value="">Select Parent Answer</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary btn-raised" ng-hide="dataLoading"
+                                ng-disabled="newQuestion.form.$invalid">Create Question
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -14,42 +14,53 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider',
             .state('index', {
                 url: '/dashboard',
                 templateUrl: 'templates/dashboard.html',
-                controller: 'HomeCtrl'
+                controller: 'HomeCtrl',
+                title: 'Dashboard',
+                subTitle: 'Dashboard'
             })
             .state('login', {
                 url: '/login',
-                templateUrl: 'templates/login.html',
-                controller: 'LoginCtrl'
+                views: {
+                    'auth': {
+                        controller: 'LoginCtrl',
+                        templateUrl: 'templates/login.html'
+                    }
+                }
             })
             .state('profile', {
                 url: '/profile/:userId',
                 templateUrl: 'templates/profile.html',
-                controller: 'UserCtrl'
+                controller: 'UserCtrl',
+                title: 'Profile',
+                subTitle: 'Profile'
             })
-            .state('templates', {
-                url: '/templates',
-                templateUrl: 'templates/templates.html',
-                controller: 'TemplateCtrl'
+            .state('header', {
+                url: '/headers',
+                templateUrl: 'templates/headers.html',
+                controller: 'HeaderCtrl',
+                title: 'Header',
+                subTitle: 'Header'
             })
-            .state('questions', {
-                url: '/questions',
-                templateUrl: 'templates/questions.html',
-                controller: 'QuestionCtrl'
-            })
-            .state('createQuestion', {
-                url: '/question/add',
-                templateUrl: 'templates/question.create.html',
-                controller: 'QuestionCtrl'
-            })
-            .state('createTemplate', {
-                url: '/template/add',
-                templateUrl: 'templates/template.create.html',
-                controller: 'TemplateCtrl'
+            .state('createHeader', {
+                url: '/header/add',
+                templateUrl: 'templates/header.create.html',
+                controller: 'HeaderCtrl',
+                title: 'Header',
+                subTitle: 'Header / Add'
             })
             .state('campaigns', {
                 url: '/campaigns',
-                templateUrl: 'templates/campaign.manage.html',
-                controller: 'CampaignCtrl'
+                templateUrl: 'templates/campaigns.html',
+                controller: 'CampaignCtrl',
+                title: 'Campaign',
+                subTitle: 'Campaign'
+            })
+            .state('createCampaign', {
+                url: '/campaign/add',
+                templateUrl: 'templates/campaign.create.html',
+                controller: 'CampaignCtrl',
+                title: 'Campaign',
+                subTitle: 'Campaign / Add'
             });
     }
 ]);

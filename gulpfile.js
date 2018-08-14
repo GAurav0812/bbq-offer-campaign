@@ -8,7 +8,16 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     less = require('gulp-less'),
     rename = require('gulp-rename'),
-    minifyHTML = require('gulp-htmlmin');
+    minifyHTML = require('gulp-htmlmin'),
+    proxyMiddleware = require('http-proxy-middleware'),
+    bs = require('browser-sync').create();
+
+var apiserver = proxyMiddleware('/rest', {
+    //target: 'http://10.10.0.18:80/',
+    target: 'http://barbeque.theuniquemedia.in/',
+    changeOrigin: true,             // for vhosted sites, changes host header to match to target's host
+    logLevel: 'debug'
+});
 
 var paths = {
     scripts: 'src/js/**/*.*',
@@ -22,7 +31,7 @@ var paths = {
 /**
  * Handle bower components from index
  */
-gulp.task('usemin', function() {
+gulp.task('usemin', function () {
     return gulp.src(paths.index)
         .pipe(usemin({
             js: [minifyJs(), 'concat'],
@@ -36,7 +45,7 @@ gulp.task('usemin', function() {
  */
 gulp.task('build-assets', ['copy-bower_fonts']);
 
-gulp.task('copy-bower_fonts', function() {
+gulp.task('copy-bower_fonts', function () {
     return gulp.src(paths.bower_fonts)
         .pipe(rename({
             dirname: '/fonts'
@@ -49,25 +58,25 @@ gulp.task('copy-bower_fonts', function() {
  */
 gulp.task('build-custom', ['custom-images', 'custom-js', 'custom-less', 'custom-templates']);
 
-gulp.task('custom-images', function() {
+gulp.task('custom-images', function () {
     return gulp.src(paths.images)
         .pipe(gulp.dest('dist/img'));
 });
 
-gulp.task('custom-js', function() {
+gulp.task('custom-js', function () {
     return gulp.src(paths.scripts)
         .pipe(minifyJs())
         .pipe(concat('dashboard.min.js'))
         .pipe(gulp.dest('dist/js'));
 });
 
-gulp.task('custom-less', function() {
+gulp.task('custom-less', function () {
     return gulp.src(paths.styles)
         .pipe(less())
         .pipe(gulp.dest('dist/css'));
 });
 
-gulp.task('custom-templates', function() {
+gulp.task('custom-templates', function () {
     return gulp.src(paths.templates)
         .pipe(minifyHTML())
         .pipe(gulp.dest('dist/templates'));
@@ -76,7 +85,7 @@ gulp.task('custom-templates', function() {
 /**
  * Watch custom files
  */
-gulp.task('watch', function() {
+gulp.task('watch', function () {
     gulp.watch([paths.images], ['custom-images']);
     gulp.watch([paths.styles], ['custom-less']);
     gulp.watch([paths.scripts], ['custom-js']);
@@ -87,7 +96,7 @@ gulp.task('watch', function() {
 /**
  * Live reload server
  */
-gulp.task('webserver', function() {
+gulp.task('webserver', function () {
     connect.server({
         root: 'dist',
         livereload: true,
@@ -95,7 +104,7 @@ gulp.task('webserver', function() {
     });
 });
 
-gulp.task('livereload', function() {
+gulp.task('livereload', function () {
     gulp.src(['dist/**/*.*'])
         .pipe(watch(['dist/**/*.*']))
         .pipe(connect.reload());
