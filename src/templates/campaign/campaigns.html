@@ -1,0 +1,153 @@
+<div class="row">
+    <div class="horizontal-scroll">
+        <!--  <div class="row">
+              <label class="col-sm-2 pull-right">Rows on page
+                  <select class="form-control selectpicker show-tick" title="Rows on page" selectpicker
+                          ng-model="campaignPageSize" ng-options="i for i in [5,10,15,20,25]">
+                  </select>
+              </label>
+          </div>-->
+        <div class="panel profile-panel animated zoomIn">
+            <div class="panel-heading panel-background">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-8 col-lg-10">
+                        <h3 class="panel-title"><span class="menu-icon fa fa-tags"></span> Manage Campaign</h3>
+                    </div>
+                    <div class="col-xs-6 col-sm-4 col-lg-2 pull-right">
+                        <a class="btn btn-primary btn-sm pull-right " href="#/campaign/add">Add</a>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <!-- <div>
+                     <div class="pull-right" style="margin-top: -15px;">
+                         <label class="custom-checkbox" style="margin-top: 23px; margin-left: 15px;">
+                             <input type="checkbox" ng-model="checked.allCamp" ng-change="onAllCampCheckbox()">
+                             <span class="isAllowSlotFull">All</span>
+                         </label>
+                         <label class="custom-checkbox" style="margin-top: 23px; margin-left: 15px;">
+                             <input type="checkbox" ng-model="checked.normalCamp" ng-change="onNormalCampCheckbox()">
+                             <span class="isAllowSlotFull">Normal</span>
+                         </label>
+                         <label class="custom-checkbox" style="margin-top: 23px; margin-left: 15px;">
+                             <input type="checkbox" ng-model="checked.promoCamp" ng-change="onPromoCampCheckbox()">
+                             <span class="isAllowSlotFull">Promotion</span>
+                         </label>
+                     </div>
+                 </div>-->
+                <div class="table-responsive" style="margin-top: 30px!important;">
+                    <table class="table table-responsive" st-table="campaignListData"
+                           st-safe-src="campaignListMasterData">
+                        <thead>
+                        <tr class="sortable ">
+                            <th class="table-id" st-sort="id"><b>ID</b></th>
+                            <th st-sort="name"><b><i class="fa fa-user" aria-hidden="true"></i> NAME</b></th>
+                            <th><b>TYPE</b></th>
+                            <th><b>ACTION</b></th>
+                            <th><b>STATUS</b></th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th><input st-search="name" placeholder="Search Campaign"
+                                       class="input-sm form-control search-input"
+                                       type="search"/></th>
+                            <th></th>
+                            <th></th>
+                            <th><select st-search="status" st-input-event="change" st-delay="0" ng-model="dummy"
+                                        class="input-sm form-control">
+                                <option value="">
+                                    All
+                                </option>
+                                <option value="I">
+                                    InActive
+                                </option>
+                                <option value="A">
+                                    Active
+                                </option>
+                            </select></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in campaignListData"
+                            ng-class="{'promo-campaign':item.isPromoCampaign==1,'data-capture-campaign':item.isPromoCampaign==1&&item.onlyDataCapture==1}">
+                            <td>{{item.id}}</td>
+                            <td class="multiline-cell" text="item.name" class="ng-binding">
+                                <div><i ng-if="item.isPromoCampaign==1 &&item.onlyDataCapture==0" class="fa fa-star"
+                                        style="color: white;"></i> {{item.name}}
+                                </div>
+                                <div class="sub"><span>{{item.description}}</span>
+                                </div>
+                            </td>
+                            <td>{{item.type}}</td>
+                            <td>
+                                <button class="btn btn-primary btn-xs btn-raised" data-toggle="modal"
+                                        ng-click="editCampaignInfoModal(item)" data-toggle="tooltip"
+                                        title="Edit Campaign Details">Edit <i
+                                        class="fa fa-pencil fa-md"></i>
+                                </button>
+                                <button class="btn btn-primary btn-xs btn-raised" data-toggle="modal"
+                                        ng-click="editCampaignTemplateModal(item)" data-toggle="tooltip"
+                                        title="Edit Header Details">Setting <i
+                                        class="fa fa-envelope fa-md"></i>
+                                </button>
+                                <button class="btn btn-primary btn-xs btn-raised"
+                                        data-toggle="modal" data-toggle="tooltip"
+                                        title="View Registered Customer"
+                                        ng-click="goToCustomerListPage(item)">Registered
+                                </button>
+                            </td>
+                            <td><span>{{item.status | statusFullForm}}</span></td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="7" class="text-center">
+                                <div st-pagination="" st-items-by-page="campaignPageSize" st-displayed-pages="10"></div>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                    <div class="text-center" ng-if="campaignListData.length==0">
+                        <label>No data available</label>
+                    </div>
+                </div>
+                <div ng-hide="true">
+                    <table id="campaignTableToExport" st-table="campaignListMasterData" class="table">
+                        <thead>
+                        <tr style="background-color:#458b74;color:#ffffff">
+                            <th class="table-id" st-sort="id"><b>ID</b></th>
+                            <th><b>NAME</b></th>
+                            <th><b>DESCRIPTION</b></th>
+                            <th><b>NO OF PERSON</b></th>
+                            <th><b>CONFIRM EMAIL</b></th>
+                            <th><b>EMAIL SUBJECT</b></th>
+                            <th><b>CONFIRM SMS</b></th>
+                            <th><b>CAMPAIGN OVER TEXT</b></th>
+                            <th><b>NOTIFY EMAIL</b></th>
+                            <th><b>SLOTS FULL TEXT</b></th>
+                            <th><b>IS ALLOWED ON SLOT FULL?</b></th>
+                            <th><b>IS PUBLISHED?</b></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in campaignListMasterData">
+                            <td>{{item.id}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.desc}}</td>
+                            <td>{{item.noOfPerson}}</td>
+                            <td>{{item.confirmEmail}}</td>
+                            <td>{{item.emailSubject}}</td>
+                            <td>{{item.confirmSms}}</td>
+                            <td>{{item.campaignOverText}}</td>
+                            <td>{{item.notifyEmail}}</td>
+                            <td>{{item.slotFullText}}</td>
+                            <td>{{item.isAllowOnFull}}</td>
+                            <td>{{item.isPublished}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

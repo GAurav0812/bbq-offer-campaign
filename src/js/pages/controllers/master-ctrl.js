@@ -1,19 +1,25 @@
 /**
  * Master Controller
  */
+angular
+.module('RDash.pages')
+    .controller('MasterCtrl', ['$scope','$rootScope','$state', '$cookieStore','$location','AuthenticationService', MasterCtrl]);
 
-angular.module('RDash')
-    .controller('MasterCtrl', ['$scope','$rootScope','$state', '$cookieStore', MasterCtrl]);
-
-function MasterCtrl($scope,$rootScope, $state,$cookieStore) {
+function MasterCtrl($scope,$rootScope, $state,$cookieStore,$location,AuthenticationService) {
     /**
      * Sidebar Toggle & Cookie Control
      */
+    $scope.logout=function(){
+        AuthenticationService.logout().then(function () {
+            AuthenticationService.clearCredentials();
+            $location.path('/login');
+        }, function (error) {
+            //toastr.error(error, "Error");
+        });
+    }
     $scope.$watch(function () {
         $rootScope.activePageTitle = $state.current.title;
         $rootScope.activePageSubTitle = $state.current.subTitle;
-        $rootScope.isLoginPage = $state.current.name === 'login';
-
     });
     var mobileView = 992;
 

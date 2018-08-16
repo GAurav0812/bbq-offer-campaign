@@ -12,30 +12,36 @@
     <!-- build:css lib/css/main.min.css -->
     <link rel="stylesheet" type="text/css" href="components/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="components/angular-wizard/dist/angular-wizard.min.css">
     <link rel="stylesheet" type="text/css" href="components/rdash-ui/dist/css/rdash.min.css">
-    <link rel="stylesheet" type="text/css" href="components/rdash-ui/dist/css/rdash.min.css">
-    <link rel="stylesheet" type="text/css" href="css/login.css">
-    <link rel="stylesheet" type="text/css" href="css/layout.css">
+    <link rel="stylesheet" type="text/css" href="less/login.css">
+    <link rel="stylesheet" type="text/css" href="less/layout.css">
+    <link rel="stylesheet" type="text/css" href="less/style.css">
 
     <!-- endbuild -->
     <!-- SCRIPTS -->
     <!-- build:js lib/js/main.min.js -->
     <script type="text/javascript" src="components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="components/angular-animate/angular-animate.min.js"></script>
     <script type="text/javascript" src="components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-    <script type="text/javascript" src="components/angular-cookies/angular-cookies.min.js"></script>
+    <script type="text/javascript" src="components/angular-cookies/angular-cookies.js"></script>
     <script type="text/javascript" src="components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="components/ng-file-upload/ng-file-upload.min.js"></script>
+    <script type="text/javascript" src="components/angular-toastr/dist/angular-toastr.min.js"></script>
+    <script type="text/javascript" src="components/angular-wizard/dist/angular-wizard.js"></script>
+    <script type="text/javascript" src="components/angular-smart-table/dist/smart-table.js"></script>
     <!-- endbuild -->
     <!-- Custom Scripts -->
     <script type="text/javascript" src="js/dashboard.min.js"></script>
 </head>
 <body ng-controller="MasterCtrl">
-<div id="page-wrapper" ng-if="!isLoginPage" ng-class="{'open': toggle}" ng-cloak>
+<div id="page-wrapper" ng-if="globals.currentUser" ng-class="{'open': toggle}" ng-cloak>
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
         <ul class="sidebar">
             <li class="sidebar-main">
                 <a ng-click="toggleSidebar()">
-                    Dashboard
+                    BBQ
                     <span class="menu-icon glyphicon glyphicon-transfer"></span>
                 </a>
             </li>
@@ -44,10 +50,7 @@
                 <a href="#/dashboard">Dashboard <span class="menu-icon fa fa-tachometer"></span></a>
             </li>
             <li class="sidebar-list" ui-sref-active="selectedMenu">
-                <a href="#/headers">Header <span class="menu-icon fa fa-tasks"></span></a>
-            </li>
-            <li class="sidebar-list" ui-sref-active="selectedMenu">
-                <a href="#/campaigns">Campaign <span class="menu-icon fa fa-tags"></span></a>
+                <a href="#/campaign">Campaign <span class="menu-icon fa fa-tags"></span></a>
             </li>
         </ul>
         <div class="sidebar-footer">
@@ -87,7 +90,7 @@
                                 </li>
                                 <li class="divider"></li>
                                 <li class="link">
-                                    <a href="#/login">
+                                    <a ng-click="logout()">
                                         Logout
                                     </a>
                                 </li>
@@ -124,6 +127,6 @@
         </div>
     </div><!-- End Content Wrapper -->
 </div><!-- End Page Wrapper --><!-- End Page Wrapper -->
-<span ng-if="isLoginPage" ui-view="auth"></span>
+<span ng-if="!globals.currentUser" ui-view="auth"></span>
 </body>
 </html>

@@ -1,0 +1,22 @@
+ul.sidebar .sidebar-list a:active {
+    color: #fff!important;
+    border-left: 3px solid #e99d1a!important;
+    text-indent: 22px!important;
+}
+.selectedMenu{
+    color: #fff!important;
+    border-left: 3px solid #e99d1a!important;
+    text-indent: 22px!important;
+}
+h1, h2, h3 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.tab {
+    display: none;
+}

@@ -3,10 +3,10 @@
  */
 
 angular
-    .module('RDash')
-    .controller('HomeCtrl', ['$scope', HomeCtrl]);
+    .module('RDash.pages')
+    .controller('HeaderCtrl', ['$scope', HeaderCtrl]);
 
-function HomeCtrl($scope) {
+function HeaderCtrl($scope) {
     $scope.alerts = [{
         type: 'success',
         msg: 'Thanks for visiting! Feel free to create pull requests to improve the dashboard!'

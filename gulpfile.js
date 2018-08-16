@@ -12,9 +12,9 @@ var gulp = require('gulp'),
     proxyMiddleware = require('http-proxy-middleware'),
     bs = require('browser-sync').create();
 
-var apiserver = proxyMiddleware('/rest', {
+var apiserver = proxyMiddleware('/instant-1.0/rest', {
     //target: 'http://10.10.0.18:80/',
-    target: 'http://barbeque.theuniquemedia.in/',
+    target: 'http://barbeque.theuniquemedia.in:8080/',
     changeOrigin: true,             // for vhosted sites, changes host header to match to target's host
     logLevel: 'debug'
 });
@@ -100,7 +100,10 @@ gulp.task('webserver', function () {
     connect.server({
         root: 'dist',
         livereload: true,
-        port: 8888
+        port: 8888,
+        middleware: function(connect, opt) {
+            return [apiserver]
+        }
     });
 });
 
