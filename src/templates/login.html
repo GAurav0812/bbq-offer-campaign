@@ -1,9 +1,14 @@
 <main class="auth-main">
     <div class="auth-block animated zoomIn">
+        <h1 class="al-logo clearfix"><img ng-src="img/bbq-white.png" height="100px"></h1>
+        <h2 class="text-center form-heading">Offer Campaign<span style="font-size: 13px;vertical-align: text-top;background-color: white;color: #30426a;border-radius: 5px;padding: 0 5px;">PANEL</span></h2>
+        <h5 class="text-center" style="color: #e9eefb;">
+            Sign In to your account
+        </h5>
         <form class="form-horizontal" ng-submit="login(loginForm.$valid)" name="loginForm" novalidate>
-            <div class="form-heading">
+           <!-- <div class="form-heading">
                 <h2>Sign In</h2>
-            </div>
+            </div>-->
             <div class="form-group"
                  ng-class="{'has-error': loginForm.username.$invalid && loginForm.username.$dirty, 'has-success': loginForm.username.$valid }">
                 <input type="text" class="form-control" placeholder="Username" name="username" ng-model="userLoginInfo.username"
@@ -13,13 +18,12 @@
             </div>
             <div class="form-group"
                  ng-class="{'has-error': loginForm.password.$invalid && loginForm.password.$dirty, 'has-success': loginForm.password.$valid}">
-                <input type="password" class="form-control" placeholder="Password" name="password"
+                <input type="password" class="form-control" placeholder="Password" name="password" data-password-toggle
                        ng-model="userLoginInfo.password" ng-minLength="5" required/>
-                <p class="help-block" ng-if="loginForm.password.$invalid && loginForm.password.$dirty">Please Enter at
-                    least 5 characters</p>
+                <p class="help-block" ng-if="loginForm.password.$invalid && loginForm.password.$dirty">Please Enter a valid password</p>
             </div>
-            <button class="btn btn-default pull-right"
-                    ng-disabled="loginForm.emails.$invalid || loginForm.password.$invalid">Sign In
+            <div class="form-group text-center">
+            <button class="btn btn-default">Sign In
             </button>
         </form>
     </div>

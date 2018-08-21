@@ -1,20 +1,311 @@
-<div class="modal-content ">
-    <div class="modal-header panel-background">
-        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
-            <em class="fa fa-close"></em>
-        </button>
-        <h4 class="modal-title">Edit Campaign</h4>
-    </div>
-    <div class="modal-body">
-
-
-    </div>
-    <div class="modal-footer">
-        <span class="note-text">&nbsp;</span>
+<div class="col-sm-12">
+    <button class="btn btn-info btn-sm" ng-back><i
+            class="fa fa-arrow-left fa-lg"></i> Back
+    </button>
+</div>
+<br><br>
+<div class="col-sm-12">
+    <div class="panel profile-panel animated zoomIn">
+        <div class="panel-body">
+            <wizard on-finish="updateCampaign()" indicators-position="bottom">
+                <wz-step wz-title="Basic">
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <h3>View/Edit </h3>
+                            <p>Please fill the below form to start.</p><!--<span ng-if="campaignInfo" style="font-size: 15px;vertical-align: text-top;" ng-class="campaignInfo.status==='A'?'text-success':'text-warning'">{{campaignInfo.status|statusFullForm}}</span>-->
+                        </div>
+                        <div class="col-lg-2">
+                            <div style="background-color: #f3f3f3;padding: 6px 15px;border-radius: 5px;" class="material-switch pull-right" ng-if="campaignInfo">
+                                <span style="vertical-align: -webkit-baseline-middle;">{{campaignInfo.status|statusFullForm}}</span>
+                                <input id="someSwitchOptionSuccess" ng-model="campaign.status" ng-change="updateCampaign()"
+                                       confirm="Sure! Do you want to change the status?" data-toggle="modal" data-toggle="tooltip" title="Change the status"
+                                       name="someSwitchOption001" type="checkbox"/>
+                                <label for="someSwitchOptionSuccess" style="vertical-align: -webkit-baseline-middle;" class="label-success"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <form name="editCampaign.form1" class="animated fadeIn" novalidate>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback"
+                                     ng-class="{'has-error': editCampaign.form1.name.$invalid && (editCampaign.form1.name.$dirty || editCampaign.form1.$submitted)}">
+                                    <label for="name">Campaign Title <span class="note-text">*</span></label>
+                                    <input type="text" class="form-control" id="name"
+                                           name="name" placeholder="Campaign Title"
+                                           ng-model="editCampaign.info.name" required>
+                                    <span class="help-block error-block basic-block"
+                                          ng-if="editCampaign.form1.name.$invalid && editCampaign.form1.name.$dirty">Required</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group"
+                                     ng-class="{'has-error': editCampaign.form1.subType.$invalid && (editCampaign.form1.subType.$dirty || editCampaign.form1.$submitted)}">
+                                    <label for="subType">Select Mode <span
+                                            class="note-text">*</span></label>
+                                    <select style="font-weight: 600;color: #999999;" class="form-control" ng-disabled="true"
+                                            ng-model="selected.subType" placeholder="Select Sub Type"
+                                            name="subType" id="subType" ng-required="true"
+                                            ng-options="item as item.label for item in CampaignSubTypeList" required>
+                                        <option value="">Select Sub Type</option>
+                                    </select>
+                                    <span class="help-block error-block basic-block"
+                                          ng-if="editCampaign.form1.subType.$invalid && editCampaign.form1.subType.$dirty">Select sub type is required field</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group"
+                                     ng-class="{'has-error': editCampaign.form1.startDate.$invalid && (editCampaign.form1.startDate.$dirty || editCampaign.form1.$submitted)}">
+                                    <label for="startDate">Start Date<span
+                                            class="note-text"> * </span></label>
+                                    <p class="input-group">
+                                        <input type="text" class="form-control readOnly-input" uib-datepicker-popup="{{format}}"
+                                               ng-model="editCampaign.info.startDate" is-open="popup1.opened"
+                                               placeholder="Start Date" id="startDate" min-date="curDate" ng-readonly="true"v
+                                               datepicker-options="dateOptions" ng-required="true" close-text="Close"
+                                               alt-input-formats="altInputFormats" name="startDate"/>
+                                        <span class="input-group-btn assignTemplateLayout">
+                                            <button type="button" class="btn btn-default" ng-click="open1()">
+                                                <i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span></p>
+                                    <span class="help-block error-block basic-block"
+                                          ng-if="editCampaign.form1.startDate.$invalid && editCampaign.form1.startDate.$dirty">Date Required</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group"
+                                     ng-class="{'has-error': editCampaign.form1.endDate.$invalid && (editCampaign.form1.endDate.$dirty || editCampaign.form1.$submitted)}">
+                                    <label for="endDate">End Date<span
+                                            class="note-text"> * </span></label>
+                                    <p class="input-group">
+                                        <input type="text" class="form-control readOnly-input" uib-datepicker-popup="{{format}}"
+                                               ng-model="editCampaign.info.endDate" is-open="popup2.opened" ng-readonly="true"
+                                               placeholder="End Date" id="endDate" min-date="endMinDate"
+                                               datepicker-options="dateOptions" ng-required="true" close-text="Close"
+                                               alt-input-formats="altInputFormats" name="fromDate"/>
+                                        <span class="input-group-btn assignTemplateLayout">
+                                            <button type="button" class="btn btn-default" ng-click="open2()">
+                                                <i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span></p>
+                                    <span class="help-block error-block basic-block"
+                                          ng-if="editCampaign.form1.endDate.$invalid && editCampaign.form1.endDate.$dirty">Date Required</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                           <!-- <div class="col-md-6">
+                                <div class="form-group"
+                                     ng-class="{'has-error': editCampaign.form1.closeMessage.$invalid && (editCampaign.form1.closeMessage.$dirty || editCampaign.form1.$submitted)}">
+                                    <label for="emailTemplate">Close Message <span class="note-text">*</span></label>
+                                    &lt;!&ndash;  <i class="fa fa-info-circle template-info cursor pull-right fa-lg"
+                                         ng-click="openPlaceHolderInfoBox1(true,false)"
+                                         aria-hidden="true"></i>&ndash;&gt;
+                                    <span class="text-count pull-right">{{editCampaign.info.closeMessage.length +"/"+600}}</span>
+                                    <textarea class="form-control" name="closeMessage" id="emailTemplate"
+                                              placeholder="Close message" rows="2" maxlength="600"
+                                              ng-model="editCampaign.info.closeMessage" required>
+                                  </textarea>
+                                    <span class="help-block error-block basic-block"
+                                          ng-if="editCampaign.form1.closeMessage.$invalid && editCampaign.form1.closeMessage.$dirty">Required</span>
+                                </div>
+                            </div>-->
+                            <div class="col-md-6">
+                                <div class="form-group"
+                                     ng-class="{'has-error': editCampaign.form1.smsTemplate.$invalid && (editCampaign.form1.smsTemplate.$dirty || editCampaign.form1.$submitted)}">
+                                    <label for="smsTemplate">Sms Template <span class="note-text">*</span></label>
+                                    <!-- <i class="fa fa-info-circle template-info cursor pull-right fa-lg"
+                                        ng-click="openPlaceHolderInfoBox1(false,true)"
+                                        aria-hidden="true"></i>-->
+                                    <span class="text-count pull-right">{{editCampaign.info.smsTemplate.length +"/"+160}}</span>
+                                    <textarea class="form-control" name="smsTemplate" id="smsTemplate"
+                                              placeholder="SMS template" rows="2" maxlength="160" ui-validate="'isValidSmsTemplate($value)'"
+                                              ng-model="editCampaign.info.smsTemplate" required>
+                                </textarea>
+                                    <span class="help-block error-block basic-block"
+                                          ng-if="editCampaign.form1.smsTemplate.$invalid && editCampaign.form1.smsTemplate.$dirty">Required</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="row">
+                            <div class="col-md-6" ng-if="selected.subType.id===2">
+                                <div class="form-group"
+                                ng-class="{'has-error': editCampaign.form1.mobileCsv.$invalid && (editCampaign.form1.mobileCsv.$dirty || editCampaign.form1.$submitted)}">
+                                    <label for="mobileCsv">Upload Mobile Csv <span
+                                            class="non-mandatory">(Optional)</span></label>
+                                    &lt;!&ndash;   <i class="fa fa-info-circle template-info cursor pull-right fa-lg"
+                                          ng-click="csvInstruction(false,true)"
+                                          aria-hidden="true"></i>&ndash;&gt;
+                                    <input class="form-control" type="file" id="mobileCsv"
+                                           ngf-select="uploadMobileCsv($file)"
+                                           ng-model="upload.mobileCsv" pattern="'.csv'" accept=".csv"
+                                           ngf-max-size="5MB"
+                                           name="mobileCsv" required="">
+                                    <a ng-if="editCampaign.info.mobileCsv!='' && editCampaign.info.mobileCsv!=undefined && !editCampaign.form1.mobileCsv.$invalid && !editCampaign.form1.mobileCsv.$dirty"
+                                       class=" animated fadeIn headerFileLabel help-block"
+                                       href="{{'../uploads/' + editCampaign.info.mobileCsv }}"
+                                       target="_blank"
+                                       download><i class="fa fa-eye" aria-hidden="true"></i>
+                                        {{editCampaign.info.mobileCsv }}</a>
+                                    <span class="help-block error-block basic-block"
+                                          ng-if="editCampaign.form1.mobileCsv.$invalid && editCampaign.form1.mobileCsv.$dirty">Required</span>
+                                </div>
+                            </div>
+                        </div>-->
+                    </form>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input class="btn btn-sm btn-primary" ng-disabled="editCampaign.form1.$invalid" type="submit"
+                                   wz-next value="Next"/>
+                        </div>
+                    </div>
+                    <!--  ng-disabled="editCampaign.form1.$invalid"-->
+                </wz-step>
+                <wz-step wz-title="Questionnaire" ng-if="selected.type==='Survey'|| selected.type==='SURVEY'">
+                    <h3>Add Survey Questionnaire</h3>
+                    <p>You can add new Question or use from previous campaign!</p>
+                    <input class="btn btn-sm btn-default" type="button" wz-previous="logStep()" value="Previous"/>
+                    <input class="btn btn-sm btn-primary" type="submit" wz-next value="Next"/>
+                </wz-step>
+                <wz-step wz-title="Configuration">
+                    <h3>Configuration</h3>
+                    <p>Please add voucher details!</p>
+                    <form name="editCampaign.form3" class="animated fadeIn" novalidate>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group has-feedback"
+                                     ng-class="{'has-error': editCampaign.form3.title.$invalid && (editCampaign.form3.title.$dirty || editCampaign.form3.$submitted)}">
+                                    <label for="headerTitle">Header Title <span class="note-text">*</span></label>
+                                    <input type="text" class="form-control" id="headerTitle"
+                                           name="title" placeholder="Header Title"
+                                           ng-model="editCampaign.info.termsAndCondition.title" required>
+                                    <span class="help-block error-block basic-block"
+                                          ng-if="editCampaign.form3.title.$invalid && editCampaign.form3.title.$dirty">Required</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="description">Description <span
+                                            class="non-mandatory">(Optional)</span></label>
+                                    <input type="text" class="form-control" id="description"
+                                           name="description" placeholder="Description"
+                                           ng-model="editCampaign.info.termsAndCondition.description">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-12" style="margin-bottom: -15px">
+                                    <label>Header Settings<span class="note-text"> * </span></label>
+                                </div>
+                            </div>
+                            <div ng-repeat="item in editCampaign.info.termsAndCondition.offerDetails track by $index">
+                                <div class="row">
+                                    <div class="form-group col-md-2 col-xs-6"
+                                         ng-class="{'has-error': editCampaign.form3.paxNo{{$index+1}}.$invalid && (editCampaign.form3.paxNo{{$index+1}}.$dirty || editCampaign.form3.$submitted)}">
+                                        <input type="text" name="paxNo{{$index+1}}" id="paxNo"
+                                               class="form-control" ui-validate="'isNumeric($value)'"
+                                               ng-model="editCampaign.info.termsAndCondition.offerDetails[$index].paxNo"
+                                               placeholder="PAX*" required>
+                                    </div>
+                                    <div class="form-group col-md-2 col-xs-6"
+                                         ng-class="{'has-error': editCampaign.form3.headerId{{$index+1}}.$invalid && (editCampaign.form3.headerId{{$index+1}}.$dirty || editCampaign.form3.$submitted)}">
+                                        <input type="text" name="headerId{{$index+1}}" id="headerId"
+                                               class="form-control"
+                                               ng-model="editCampaign.info.termsAndCondition.offerDetails[$index].headerId"
+                                               placeholder="Voucher Code*" required>
+                                    </div>
+                                    <div class="form-group col-md-4 col-xs-6"
+                                         ng-class="{'has-error': editCampaign.form3.voucherDetails{{$index+1}}.$invalid && (editCampaign.form3.voucherDetails{{$index+1}}.$dirty || editCampaign.form3.$submitted)}">
+                                        <input type="text" name="voucherDetails{{$index+1}}" id="voucherDetails"
+                                               class="form-control"
+                                               ng-model="editCampaign.info.termsAndCondition.offerDetails[$index].voucherDetails"
+                                               placeholder="When 5 people dined*" required>
+                                    </div>
+                                    <div class="form-group col-md-2 col-xs-6"
+                                         ng-class="{'has-error': editCampaign.form3.voucherValue{{$index+1}}.$invalid && (editCampaign.form3.voucherValue{{$index+1}}.$dirty || editCampaign.form3.$submitted)}">
+                                        <input type="text" name="voucherValue{{$index+1}}" id="voucherValue"
+                                               class="form-control"
+                                               ng-model="editCampaign.info.termsAndCondition.offerDetails[$index].voucherValue"
+                                               placeholder="Rs. 500/-* off" required>
+                                    </div>
+                                    <div class="form-group col-md-1 col-xs-6">
+                                        <button type="button" class="btn btn-primary pull-left"
+                                                ng-click="addRow($index)"
+                                                ng-show="$last">
+                                            <i class="fa fa-plus"></i> Add
+                                        </button>
+                                    </div>
+                                    <div class="form-group col-md-1 col-xs-6">
+                                        <button type="button" class="btn btn-danger"
+                                                ng-click="deleteRow($event,$index)" value=""
+                                                ng-show="$index != 0">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input class="btn btn-sm btn-default" type="button" wz-previous="logStep()"
+                                   value="Previous"/>
+                            <input ng-disabled="editCampaign.form3.$invalid" class="btn btn-sm btn-primary" type="submit"
+                                   wz-next value="Next"/>
+                        </div>
+                    </div>
+                </wz-step>
+                <wz-step wz-title="Final">
+                    <h3>Ready!</h3>
+                    <p>Here are your campaign details!</p>
+                    <div class="col-lg-12">
+                        <h4 class="pull-right">
+                            Status : <label ng-class="editCampaign.info.status==='A'?'text-success':'text-warning'">{{editCampaign.info.status|statusFullForm}}</label>
+                        </h4>
+                    </div>
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr class="readonly-input">
+                            <td colspan="4" class="text-center">Campaign Created On : {{editCampaign.info.createdOn|date}}</td>
+                        </tr>
+                        <tr>
+                            <td>Campaign Name : <b>{{editCampaign.info.name}}</b></td>
+                            <td>Campaign Type : <b>{{selected.subType.label}}</b></td>
+                            <td>Start Date : <b>{{editCampaign.info.startDate|date:'dd-MMMM-yyyy'}}</b></td>
+                            <td>End Date : <b>{{editCampaign.info.endDate|date:'dd-MMMM-yyyy'}}</b></td>
+                        </tr>
+                        <tr class="readonly-input">
+                            <td colspan="4" class="text-center">Survey Questionnaire</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"><em>Not Applicable</em></td>
+                        </tr>
+                        <tr class="readonly-input">
+                            <td colspan="4" class="text-center">Header Information</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">Header Title : <b>{{editCampaign.info.termsAndCondition.title}}</b></td>
+                            <td colspan="2">Description : <b>{{editCampaign.info.termsAndCondition.description}}</b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">Header Settings</td>
+                        </tr>
+                        <tr ng-repeat="item in editCampaign.info.termsAndCondition.offerDetails">
+                            <td>PAX : <b>{{item.paxNo}}</b></td>
+                            <td>Voucher Code : <b>{{item.headerId}}</b></td>
+                            <td>Voucher Details : <b>{{item.voucherDetails}}</b></td>
+                            <td>Voucher Value: <b>{{item.voucherValue}}</b></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <input class="btn btn-sm btn-default" type="button" wz-previous="logStep()" value="Previous"/>
+                    <input class="btn btn-sm btn-primary" type="submit" wz-next value="Submit"/>
+                </wz-step>
+            </wizard>
+        </div>
     </div>
 </div>
-
-
-
-
 

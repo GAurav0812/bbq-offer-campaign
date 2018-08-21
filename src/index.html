@@ -12,8 +12,10 @@
     <!-- build:css lib/css/main.min.css -->
     <link rel="stylesheet" type="text/css" href="components/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="components/angular-toastr/dist/angular-toastr.min.css">
     <link rel="stylesheet" type="text/css" href="components/angular-wizard/dist/angular-wizard.min.css">
     <link rel="stylesheet" type="text/css" href="components/rdash-ui/dist/css/rdash.min.css">
+    <link rel="stylesheet" type="text/css" href="components/angular-xeditable/dist/css/xeditable.min.css">
     <link rel="stylesheet" type="text/css" href="less/login.css">
     <link rel="stylesheet" type="text/css" href="less/layout.css">
     <link rel="stylesheet" type="text/css" href="less/style.css">
@@ -25,11 +27,15 @@
     <script type="text/javascript" src="components/angular-animate/angular-animate.min.js"></script>
     <script type="text/javascript" src="components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script type="text/javascript" src="components/angular-cookies/angular-cookies.js"></script>
+    <script type="text/javascript" src="components/angular-ui-validate/dist/validate.min.js"></script>
     <script type="text/javascript" src="components/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script type="text/javascript" src="components/ng-file-upload/ng-file-upload.min.js"></script>
-    <script type="text/javascript" src="components/angular-toastr/dist/angular-toastr.min.js"></script>
+    <script type="text/javascript" src="components/angular-toastr/dist/angular-toastr.js"></script>
+    <script type="text/javascript" src="components/angular-toastr/dist/angular-toastr.tpls.min.js"></script>
     <script type="text/javascript" src="components/angular-wizard/dist/angular-wizard.js"></script>
     <script type="text/javascript" src="components/angular-smart-table/dist/smart-table.js"></script>
+    <script type="text/javascript" src="components/angular-xeditable/dist/js/xeditable.min.js"></script>
+    <script type="text/javascript" src="components/angular-confirm-modal/angular-confirm.min.js"></script>
     <!-- endbuild -->
     <!-- Custom Scripts -->
     <script type="text/javascript" src="js/dashboard.min.js"></script>
@@ -41,20 +47,24 @@
         <ul class="sidebar">
             <li class="sidebar-main">
                 <a ng-click="toggleSidebar()">
-                    BBQ
+                    <img ng-src="img/bbq-white.png" width="40px"> <span style="vertical-align: -webkit-baseline-middle;">BBQ</span>
+                    <small style="font-size: 13px;vertical-align: top;">OFFER</small>
                     <span class="menu-icon glyphicon glyphicon-transfer"></span>
                 </a>
             </li>
             <li class="sidebar-title"><span>NAVIGATION</span></li>
-            <li class="sidebar-list" ui-sref-active="selectedMenu">
-                <a href="#/dashboard">Dashboard <span class="menu-icon fa fa-tachometer"></span></a>
+            <li class="sidebar-list">
+                <a ui-sref-active="selectedMenu" href="#/dashboard">Dashboard <span class="menu-icon fa fa-tachometer"></span></a>
             </li>
-            <li class="sidebar-list" ui-sref-active="selectedMenu">
-                <a href="#/campaign">Campaign <span class="menu-icon fa fa-tags"></span></a>
+            <li class="sidebar-list">
+                <a ui-sref-active="selectedMenu" href="#/campaign/add">Create Campaign <span class="menu-icon fa fa-plus"></span></a>
+            </li>
+            <li class="sidebar-list">
+                <a ui-sref-active="selectedMenu" href="#/campaign">Campaign List <span class="menu-icon fa fa-tasks"></span></a>
             </li>
         </ul>
         <div class="sidebar-footer">
-            <div class="col-xs-6">
+           <!-- <div class="col-xs-6">
                 <a href="https://carufus.com/" target="_blank">
                     About
                 </a>
@@ -63,7 +73,7 @@
                 <a href="https://carufus.com/#block261" target="_blank">
                     Support
                 </a>
-            </div>
+            </div>-->
         </div>
     </div>
     <!-- End Sidebar -->
@@ -76,27 +86,27 @@
                     <div class="user pull-right">
                         <div class="item dropdown" uib-dropdown>
                             <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
-                                <img src="img/avatar.jpg">
+                                <img src="img/avatar2.svg">
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right">
                                 <li class="dropdown-header">
-                                    Joe Bloggs
+                                   Administrator
                                 </li>
-                                <li class="divider"></li>
+                              <!--  <li class="divider"></li>
                                 <li class="link">
                                     <a href="#/profile/1">
                                         Profile
                                     </a>
-                                </li>
+                                </li>-->
                                 <li class="divider"></li>
                                 <li class="link">
-                                    <a ng-click="logout()">
+                                    <a style="cursor: pointer" ng-click="logout()">
                                         Logout
                                     </a>
                                 </li>
                             </ul>
                         </div>
-                        <div class="item dropdown" uib-dropdown>
+                       <!-- <div class="item dropdown" uib-dropdown>
                             <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
                                 <i class="fa fa-bell-o"></i>
                             </a>
@@ -109,7 +119,7 @@
                                     <a href="#">Server Down!</a>
                                 </li>
                             </ul>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="meta">
                         <div class="page">

@@ -47,6 +47,13 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider',
                 controller: 'CampaignCtrl',
                 title: 'Campaign',
                 subTitle: 'Campaign / Add'
+            })
+            .state('editCampaign', {
+                url: '/campaign/edit/:campaignId',
+                templateUrl: 'templates/campaign/edit.campaign.html',
+                controller: 'EditCampaignCtrl',
+                title: 'Campaign',
+                subTitle: 'Campaign / Edit'
             });
     }
 ]);

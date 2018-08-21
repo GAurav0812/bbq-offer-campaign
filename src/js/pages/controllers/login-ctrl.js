@@ -4,9 +4,9 @@
 
 angular
     .module('RDash.pages')
-    .controller('LoginCtrl', ['$scope','AuthenticationService','$location', LoginCtrl]);
+    .controller('LoginCtrl', ['$scope','AuthenticationService','$location','toastr', LoginCtrl]);
 
-function LoginCtrl($scope,AuthenticationService,$location) {
+function LoginCtrl($scope,AuthenticationService,$location,toastr) {
     $scope.userLoginInfo = {
         username: "",
         password: ""
@@ -24,9 +24,9 @@ function LoginCtrl($scope,AuthenticationService,$location) {
                 $scope.dataLoading = false;
                 AuthenticationService.setCredentials($scope.userLoginInfo.username, $scope.userLoginInfo.password, response.message, response.menuAccess,response.outletAccess);
                 $location.path('/dashboard');
-            }, function (error) {
+            }, function (response) {
                 $scope.dataLoading = false;
-                toastr.error(error, "Error");
+                toastr.error(response, "Error");
             });
         }
     };

@@ -11,10 +11,10 @@
             <div class="panel-heading panel-background">
                 <div class="row">
                     <div class="col-xs-6 col-sm-8 col-lg-10">
-                        <h3 class="panel-title"><span class="menu-icon fa fa-tags"></span> Manage Campaign</h3>
+                        <h3 class="panel-title"><span class="menu-icon fa fa-tasks"></span> Manage Campaign</h3>
                     </div>
                     <div class="col-xs-6 col-sm-4 col-lg-2 pull-right">
-                        <a class="btn btn-primary btn-sm pull-right " href="#/campaign/add">Add</a>
+                        <a class="btn btn-primary btn-sm pull-right " href="#/campaign/add">Add New Campaign</a>
                     </div>
                 </div>
             </div>
@@ -43,17 +43,19 @@
                             <th class="table-id" st-sort="id"><b>ID</b></th>
                             <th st-sort="name"><b><i class="fa fa-user" aria-hidden="true"></i> NAME</b></th>
                             <th><b>TYPE</b></th>
-                            <th><b>ACTION</b></th>
+                            <th><b><i class="fa fa-share-alt fa-md"></i> LINK</b></th>
                             <th><b>STATUS</b></th>
+                            <th><b>ACTION</b></th>
                         </tr>
                         <tr>
                             <th></th>
                             <th><input st-search="name" placeholder="Search Campaign"
                                        class="input-sm form-control search-input"
                                        type="search"/></th>
+
                             <th></th>
                             <th></th>
-                            <th><select st-search="status" st-input-event="change" st-delay="0" ng-model="dummy"
+                            <th><select st-search="status" st-input-event="change" st-delay="0" ng-model="status"
                                         class="input-sm form-control">
                                 <option value="">
                                     All
@@ -65,38 +67,55 @@
                                     Active
                                 </option>
                             </select></th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="item in campaignListData"
                             ng-class="{'promo-campaign':item.isPromoCampaign==1,'data-capture-campaign':item.isPromoCampaign==1&&item.onlyDataCapture==1}">
                             <td>{{item.id}}</td>
-                            <td class="multiline-cell" text="item.name" class="ng-binding">
-                                <div><i ng-if="item.isPromoCampaign==1 &&item.onlyDataCapture==0" class="fa fa-star"
-                                        style="color: white;"></i> {{item.name}}
-                                </div>
+                            <td class="multiline-cell ng-binding" text="item.name">
+                                <div>{{item.name}}</div>
                                 <div class="sub"><span>{{item.description}}</span>
                                 </div>
                             </td>
-                            <td>{{item.type}}</td>
+                            <td class="multiline-cell" text="item.type" class="ng-binding">
+                                <div>{{item.type}}</div>
+                                <!--<div class="sub">{{item.subType}}</div>-->
+                            </td>
                             <td>
-                                <button class="btn btn-primary btn-xs btn-raised" data-toggle="modal"
-                                        ng-click="editCampaignInfoModal(item)" data-toggle="tooltip"
+                                <button class="btn btn-link btn-xs" ng-if="item.status=='A'"
+                                        ng-click="generateLinkModal(item)" data-toggle="tooltip"
+                                        title="Get Campaign URL">Link <i
+                                        class="fa fa-share-alt fa-md"></i>
+                                </button>
+                            </td>
+                            <td><span>{{item.status | statusFullForm}}</span>
+                            </td>
+                            <td>
+                                <button  class="btn btn-primary btn-xs btn-raised" data-toggle="modal"
+                                        ng-click="goToEditPage(item)" data-toggle="tooltip"
                                         title="Edit Campaign Details">Edit <i
                                         class="fa fa-pencil fa-md"></i>
                                 </button>
-                                <button class="btn btn-primary btn-xs btn-raised" data-toggle="modal"
-                                        ng-click="editCampaignTemplateModal(item)" data-toggle="tooltip"
-                                        title="Edit Header Details">Setting <i
-                                        class="fa fa-envelope fa-md"></i>
-                                </button>
+                                <a ng-if="item.status=='A'" href="{{domain}}?cid={{item.linkHashId}}" target="_blank" class="btn btn-warning btn-xs btn-raised" data-toggle="modal"
+                                   data-toggle="tooltip" title="Preview Final Template">Preview <i class="fa fa-eye fa-md"></i>
+                                </a>
                                 <button class="btn btn-primary btn-xs btn-raised"
+                                        ng-if="item.type==='SURVEY' || item.type==='Survey'"
                                         data-toggle="modal" data-toggle="tooltip"
                                         title="View Registered Customer"
                                         ng-click="goToCustomerListPage(item)">Registered
                                 </button>
                             </td>
-                            <td><span>{{item.status | statusFullForm}}</span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="7" class="text-center" ng-hide="campaignDataLoaded">
+                                <i>Loading.. please wait..</i>
+                            </td>
+                            <td colspan="12" class="text-center" ng-if="campaignListData.length==0 && campaignDataLoaded">
+                                <label>No data available</label>
+                            </td>
                         </tr>
                         </tbody>
                         <tfoot>
@@ -107,9 +126,6 @@
                         </tr>
                         </tfoot>
                     </table>
-                    <div class="text-center" ng-if="campaignListData.length==0">
-                        <label>No data available</label>
-                    </div>
                 </div>
                 <div ng-hide="true">
                     <table id="campaignTableToExport" st-table="campaignListMasterData" class="table">

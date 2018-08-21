@@ -1,0 +1,53 @@
+<div class="modal-content ">
+    <div class="modal-header panel-background">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="fa fa-close"></em>
+        </button>
+        <h4 class="modal-title">View Details</h4>
+    </div>
+    <div class="modal-body">
+        <table class="table table-bordered">
+            <tbody>
+            <tr class="readonly-input">
+                <td colspan="4" class="text-center">Campaign Information</td>
+            </tr>
+            <tr>
+                <td>Campaign Name : <b>{{campaignInfo.name}}</b></td>
+                <td>Campaign Type : <b>{{campaignInfo.type}}</b></td>
+                <td>Start Date : <b>{{campaignInfo.startDate}}</b></td>
+                <td>End Date : <b>{{campaignInfo.endDate}}</b></td>
+            </tr>
+            <tr class="readonly-input">
+                <td colspan="4" class="text-center">Survey Questionnaire</td>
+            </tr>
+            <tr>
+                <td colspan="4"><em>Not Applicable</em></td>
+            </tr>
+            <tr class="readonly-input">
+                <td colspan="4" class="text-center">Header Information</td>
+            </tr>
+            <tr>
+                <td colspan="2">Header Title : <b>{{campaignInfo.termsTemplate.title}}</b></td>
+                <td colspan="2">Description : <b>{{campaignInfo.termsTemplate.description}}</b></td>
+            </tr>
+            <tr>
+                <td colspan="4">Header Settings</td>
+            </tr>
+            <tr ng-repeat="item in campaignInfo.termsAndCondition.offerDetails">
+                <td>PAX : <b>{{item.paxNo}}</b></td>
+                <td>Voucher Code : <b>{{item.headerId}}</b></td>
+                <td>Voucher Details : <b>{{item.voucherDetails}}</b></td>
+                <td>Voucher Value: <b>{{item.voucherValue}}</b></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <span class="note-text">&nbsp;</span>
+    </div>
+</div>
+
+
+
+
+

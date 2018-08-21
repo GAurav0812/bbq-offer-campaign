@@ -1,6 +1,6 @@
 'use strict';
 angular.module('RDash.services').factory('HttpService', ['$http', '$q', function ($http, $q) {
-    var apiRoot = "../instant-1.0/rest/";
+    var apiRoot = "/instant-1.0/rest/";
 
     var HttpService = function (apiModule) {
         this.apiModule = apiModule;

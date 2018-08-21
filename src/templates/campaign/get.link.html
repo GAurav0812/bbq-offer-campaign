@@ -1,0 +1,20 @@
+<div class="modal-content">
+    <div class="modal-body animated fadeIn">
+        <div class="text-center">
+            <i class="fa fa-link link-icon fa-3x"></i>
+            <div id="para1">
+                <h2 class="clickToCopy">Click to Copy Invite Link</h2>
+                <div class="copyUrl"
+                     ng-click-copy="{{domain}}?cid={{generateUrlInfo.linkHashId}}">
+                    <span>{{domain}}?cid={{generateUrlInfo.linkHashId}}</span>
+                </div>
+                <span>Click above to copy the link.</span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="pull-right" >
+            <button class="btn btn-info" ng-click="$dismiss()">OK</button>
+        </div>
+    </div>
+</div>
