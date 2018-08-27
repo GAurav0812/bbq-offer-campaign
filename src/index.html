@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="components/angular-wizard/dist/angular-wizard.min.css">
     <link rel="stylesheet" type="text/css" href="components/rdash-ui/dist/css/rdash.min.css">
     <link rel="stylesheet" type="text/css" href="components/angular-xeditable/dist/css/xeditable.min.css">
+    <link rel="stylesheet" type="text/css" href="components/angular-ui-select/dist/select.css">
     <link rel="stylesheet" type="text/css" href="less/login.css">
     <link rel="stylesheet" type="text/css" href="less/layout.css">
     <link rel="stylesheet" type="text/css" href="less/style.css">
@@ -36,6 +37,8 @@
     <script type="text/javascript" src="components/angular-smart-table/dist/smart-table.js"></script>
     <script type="text/javascript" src="components/angular-xeditable/dist/js/xeditable.min.js"></script>
     <script type="text/javascript" src="components/angular-confirm-modal/angular-confirm.min.js"></script>
+  <!--  <script type="text/javascript" src="components/angular-sanitize/angular-sanitize.min.js"></script>-->
+    <script type="text/javascript" src="components/angular-ui-select/dist/select.js"></script>
     <!-- endbuild -->
     <!-- Custom Scripts -->
     <script type="text/javascript" src="js/dashboard.min.js"></script>
@@ -100,9 +103,7 @@
                                 </li>-->
                                 <li class="divider"></li>
                                 <li class="link">
-                                    <a style="cursor: pointer" ng-click="logout()">
-                                        Logout
-                                    </a>
+                                    <a style="cursor: pointer" ng-click="logout()"><span class="menu-icon fa fa-md fa-sign-out"></span> Logout</a>
                                 </li>
                             </ul>
                         </div>

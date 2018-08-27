@@ -4,9 +4,9 @@
 
 angular
     .module('RDash.pages')
-    .controller('EditCampaignCtrl', ['$stateParams', '$filter', '$scope', '$q', '$timeout', 'ValidationServices', 'HttpService', 'Campaign', '$uibModal', 'Upload', 'toastr', '$window', '$location', EditCampaignCtrl]);
+    .controller('EditCampaignCtrl', ['$stateParams','$rootScope', '$filter', '$scope', '$q', '$timeout', 'ValidationServices', 'HttpService', 'Campaign', '$uibModal', 'Upload', 'toastr', '$window', '$location', EditCampaignCtrl]);
 
-function EditCampaignCtrl($stateParams, $filter, $scope, $q, $timeout, ValidationServices, HttpService, Campaign, $uibModal, Upload, toastr, $window, $location) {
+function EditCampaignCtrl($stateParams, $rootScope,$filter, $scope, $q, $timeout, ValidationServices, HttpService, Campaign, $uibModal, Upload, toastr, $window, $location) {
 
     $scope.format = 'dd-MMMM-yyyy';
     var CampaignObj = {
@@ -21,6 +21,7 @@ function EditCampaignCtrl($stateParams, $filter, $scope, $q, $timeout, Validatio
         termsAndCondition: {
             title: "",
             description: "",
+            customMessage: "",
             offerDetails: [
                 {
                     paxNo: "",
@@ -47,8 +48,19 @@ function EditCampaignCtrl($stateParams, $filter, $scope, $q, $timeout, Validatio
         var subTypeList = new HttpService("campaign/list/subType/normal");
         subTypeList.get("").then(function (data) {
             $scope.CampaignSubTypeList = data.subTypes;
+            getCityList()
+        }, function (e) {
+            //displayToast("error", 'Error while Fetching data.Try Again!')
+        });
+    }
+
+    function getCityList() {
+        var cityList = new HttpService("campaign/list/city");
+        cityList.get("").then(function (data) {
+            $scope.cityList = JSON.parse(data.city);
             getCampaignInfo();
         }, function (e) {
+            toastr.error('Failed!Unable to fetch City List!', "Try Again");
             //displayToast("error", 'Error while Fetching data.Try Again!')
         });
     }
@@ -63,6 +75,17 @@ function EditCampaignCtrl($stateParams, $filter, $scope, $q, $timeout, Validatio
             $scope.campaignInfo = data;
             var selectedSubType = $filter('filter')($scope.CampaignSubTypeList, {id: data.subTypeId}, true);
             $scope.selected.subType = selectedSubType[0];
+            var CityIdArr = JSON.parse(data.city);
+            $scope.tempCityObj = {};
+            var tempCityArr = [];
+            for (var i = 0; i < CityIdArr.length; i++) {
+                var cityArr = $filter('filter')($scope.cityList, {cityId: CityIdArr[i]});
+                $scope.tempCityObj = cityArr[0];
+                if (angular.isDefined($scope.tempCityObj)) {
+                    tempCityArr.push($scope.tempCityObj);
+                }
+            }
+            $scope.selected.city = tempCityArr;
             $scope.campaign.status = data.status === 'A';
             var userInfo = {};
             userInfo = angular.copy(data);
@@ -86,7 +109,7 @@ function EditCampaignCtrl($stateParams, $filter, $scope, $q, $timeout, Validatio
     getSubTypeList();
     $scope.open1 = function () {
         $scope.popup1.opened = true;
-        $scope.editCampaign.info.endDate='';
+        $scope.editCampaign.info.endDate = '';
     };
     $scope.popup1 = {
         opened: false
@@ -98,10 +121,12 @@ function EditCampaignCtrl($stateParams, $filter, $scope, $q, $timeout, Validatio
     $scope.popup2 = {
         opened: false
     };
+
     function setMinMaxDate(dt) {
         var date = new Date(dt);
         $scope.endMinDate = date;
     }
+
     $scope.addRow = function (index) {
         var obj = {paxNo: "", headerId: "", voucherDetails: "", voucherValue: ""};
         if ($scope.editCampaign.info.termsAndCondition.offerDetails.length <= index + 1) {
@@ -155,13 +180,19 @@ function EditCampaignCtrl($stateParams, $filter, $scope, $q, $timeout, Validatio
 
     $scope.updateCampaign = function () {
         $scope.editCampaign.info.subTypeId = $scope.selected.subType.id;
-        if($scope.campaign.status===true){
-            $scope.editCampaign.info.status='A';
-        }else {
-            $scope.editCampaign.info.status='I'
-        };
+        if ($scope.campaign.status === true) {
+            $scope.editCampaign.info.status = 'A';
+        } else {
+            $scope.editCampaign.info.status = 'I'
+        }
+        ;
+        var cityIds = [];
+        $scope.isLoading = true;
+        for (var i = 0; i < $scope.selected.city.length; i++) {
+            cityIds.push($scope.selected.city[i].cityId);
+        }
         var createCampaign = new HttpService("campaign/update/normal");
-        createCampaign.post('', Campaign.updateObject($scope.editCampaign.info)).then(function (response) {
+        createCampaign.post('', Campaign.updateObject($scope.editCampaign.info, cityIds)).then(function (response) {
             toastr.success("Campaign updated successfully!", "Success");
             $scope.editCampaign.info = CampaignObj;
             $scope.selected.subType = '';

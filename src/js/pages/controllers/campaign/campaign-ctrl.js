@@ -4,37 +4,40 @@
 
 angular
     .module('RDash.pages')
-    .controller('CampaignCtrl', ['$scope', '$q', '$timeout', 'ValidationServices','HttpService', 'Campaign', '$uibModal', 'Upload', 'toastr', '$window', '$location','editableOptions','editableThemes', CampaignCtrl]);
+    .controller('CampaignCtrl', ['$scope', '$q','$rootScope', '$timeout', 'ValidationServices', 'HttpService', 'Campaign', '$uibModal', 'Upload', 'toastr', '$window', '$location', 'editableOptions', 'editableThemes', CampaignCtrl]);
 
-function CampaignCtrl($scope, $q, $timeout, ValidationServices,HttpService, Campaign, $uibModal, Upload, toastr, $window, $location,editableOptions, editableThemes) {
+function CampaignCtrl($scope, $q, $rootScope,$timeout, ValidationServices, HttpService, Campaign, $uibModal, Upload, toastr, $window, $location, editableOptions, editableThemes) {
 
     $scope.format = 'dd-MMMM-yyyy';
     $scope.curDate = new Date();
-    $scope.altInputFormat=[];
+    $scope.altInputFormat = [];
 
     $scope.dateOptions = {
         formatYear: 'yyyy',
         startingDay: 1
     };
-    $scope.campaignDataLoaded=false;
-    $scope.domain=$location.protocol() + "://" + $location.host()  + "/offer";
+    $scope.campaignDataLoaded = false;
+    $scope.domain = $location.protocol() + "://" + $location.host() + "/offer";
+
     function getCampaignList() {
-        $scope.campaignDataLoaded=false;
+        $scope.campaignDataLoaded = false;
         var campaignList = new HttpService("campaign/list");
         campaignList.get("").then(function (data) {
             $scope.tempCampData = data.campaigns;
-            $scope.campaignListMasterData= $scope.tempCampData.slice().reverse();
+            $scope.campaignListMasterData = $scope.tempCampData.slice().reverse();
             $scope.campaignListData = [].concat($scope.campaignListMasterData);
-            $scope.campaignDataLoaded=true;
+            $scope.campaignDataLoaded = true;
         }, function (data) {
-            toastr.error('Unable to fetch Campaign List!', "Failed");
+            toastr.error('Failed!Unable to fetch Campaign List!', "Try Again");
             //displayToast("error", 'Error while Fetching data.Try Again!')
         });
     }
+
     $scope.statusOptions = [
         {id: 'A', text: 'Active'},
         {id: 'I', text: 'InActive'}
     ];
+
     function getSubTypeList() {
         var subTypeList = new HttpService("campaign/list/subType/normal");
         subTypeList.get("").then(function (data) {
@@ -43,24 +46,40 @@ function CampaignCtrl($scope, $q, $timeout, ValidationServices,HttpService, Camp
             //displayToast("error", 'Error while Fetching data.Try Again!')
         });
     }
+    function getCityList() {
+        var cityList = new HttpService("campaign/list/city");
+        cityList.get("").then(function (data) {
+            $scope.cityList = JSON.parse(data.city);
+        }, function (e) {
+            toastr.error('Failed!Unable to fetch City List!', "Try Again");
+            //displayToast("error", 'Error while Fetching data.Try Again!')
+        });
+    }
+
     $scope.isNumeric = ValidationServices.isNumeric;
     $scope.isValidSmsTemplate = function isValidSmsTemplate(val) {
         return !!val.includes("%cpn%");
     };
     getSubTypeList();
     getCampaignList();
+    getCityList();
+    $scope.allCity = {
+        checked: false
+    };
     var CampaignObj = {
         closeMessage: "",
         endDate: "",
         mobileCsv: "",
         subTypeId: null,
         name: "",
+        createdBy:parseInt($rootScope.globals.currentUser.userId),
         questionTemplate: null,
         smsTemplate: "Your celebration starts when you get to share this exclusive code %cpn%, during your visit to Barbeque Nation.",
         startDate: "",
         termsTemplate: {
             title: "",
             description: "",
+            customMessage:"",
             offerDetails: [
                 {
                     paxNo: "",
@@ -74,7 +93,7 @@ function CampaignCtrl($scope, $q, $timeout, ValidationServices,HttpService, Camp
     };
     $scope.selected = {
         subType: "",
-        type:"NORMAL"
+        type: "NORMAL"
     };
     $scope.newCampaign = {
         form1: {},
@@ -85,7 +104,7 @@ function CampaignCtrl($scope, $q, $timeout, ValidationServices,HttpService, Camp
 
     var viewCampaignInfoModal;
     $scope.viewCampaignInfoModal = function (item) {
-        $scope.campaignInfo=item;
+        $scope.campaignInfo = item;
         viewCampaignInfoModal = $uibModal.open({
             animation: true,
             templateUrl: 'templates/campaign/preview.html',
@@ -95,8 +114,8 @@ function CampaignCtrl($scope, $q, $timeout, ValidationServices,HttpService, Camp
             scope: $scope
         });
     };
-    $scope.goToEditPage=function (item) {
-        $location.path('/campaign/edit/'+item.id);
+    $scope.goToEditPage = function (item) {
+        $location.path('/campaign/edit/' + item.id);
     };
 
     $scope.open1 = function () {
@@ -118,6 +137,7 @@ function CampaignCtrl($scope, $q, $timeout, ValidationServices,HttpService, Camp
         var date = new Date(dt);
         $scope.endMinDate = date;
     }
+
     $scope.addRow = function (index) {
         var obj = {paxNo: "", headerId: "", voucherDetails: "", voucherValue: ""};
         if ($scope.newCampaign.info.termsTemplate.offerDetails.length <= index + 1) {
@@ -128,8 +148,8 @@ function CampaignCtrl($scope, $q, $timeout, ValidationServices,HttpService, Camp
         if ($event.which == 1)
             $scope.newCampaign.info.termsTemplate.offerDetails.splice(index, 1);
     };
-    $scope.csv={
-        file : undefined,
+    $scope.csv = {
+        file: undefined,
     };
     $scope.dynamic = 0;
     var uploadMobileService;
@@ -144,7 +164,7 @@ function CampaignCtrl($scope, $q, $timeout, ValidationServices,HttpService, Camp
             var label = 'mobile';
             folderName = $scope.newCampaign.info.mobileCsv.indexOf("/") >= 0 ? $scope.newCampaign.info.mobileCsv.split("/")[0] : ("mobile_csv" + curDate.getTime());
             uploadMobileService = Upload.upload({
-                url: '../instant-1.0/rest/campaign/upload?fn=' + folderName+"&csv=mobile",
+                url: '../instant-1.0/rest/campaign/upload?fn=' + folderName + "&csv=mobile",
                 data: {file: file}
             });
             uploadMobileService.then(function (resp) {
@@ -157,26 +177,26 @@ function CampaignCtrl($scope, $q, $timeout, ValidationServices,HttpService, Camp
                     $scope.csv.file = undefined;
                     $scope.invalidMobileCsv = true;
                     $scope.mobileCsvUploading = false;
-                    $scope.newCampaign.info.mobileCsv ='';
+                    $scope.newCampaign.info.mobileCsv = '';
                 }
             }, function (resp) {
                 $scope.mobileCsvUploading = false;
                 $scope.csv.file = undefined;
-                $scope.newCampaign.info.mobileCsv ='';
+                $scope.newCampaign.info.mobileCsv = '';
             }, function (evt) {
                 $scope.dynamic = parseInt(100.0 * evt.loaded / evt.total);
             });
         }
     };
 
-    $scope.deleteUploadedImage=function () {
+    $scope.deleteUploadedImage = function () {
         $scope.csv.file = undefined;
-        $scope.newCampaign.info.mobileCsv ='';
+        $scope.newCampaign.info.mobileCsv = '';
     };
     var generateLinkModal;
     $scope.generateLinkModal = function (item) {
         $scope.generateUrlInfo = item;
-        $scope.domain=$location.protocol() + "://" + $location.host()  + "/offer";
+        $scope.domain = $location.protocol() + "://" + $location.host() + "/offer";
         generateLinkModal = $uibModal.open({
             animation: true,
             templateUrl: 'templates/campaign/get.link.html',
@@ -208,20 +228,32 @@ function CampaignCtrl($scope, $q, $timeout, ValidationServices,HttpService, Camp
             scope: $scope
         });
     };
-    $scope.creatingCampaign=false;
+
+    $scope.creatingCampaign = false;
     $scope.createCampaign = function () {
-        $scope.creatingCampaign=true;
-        $scope.newCampaign.info.subTypeId=$scope.selected.subType.id;
+        var cityIds = [];
+        $scope.isLoading = true;
+      /*  if($scope.allCity.checked){
+            for (var i = 0; i < $scope.cityList.length; i++) {
+                cityIds.push($scope.cityList[i].cityId);
+            }
+        }else {*/
+            for (var i = 0; i < $scope.selected.city.length; i++) {
+                cityIds.push($scope.selected.city[i].cityId);
+            }
+        /*}*/
+        $scope.creatingCampaign = true;
+        $scope.newCampaign.info.subTypeId = $scope.selected.subType.id;
         var createCampaign = new HttpService("campaign/create/normal");
-        createCampaign.post('', Campaign.createObject($scope.newCampaign.info)).then(function (response) {
+        createCampaign.post('', Campaign.createObject($scope.newCampaign.info,cityIds)).then(function (response) {
             toastr.success("Campaign created successfully!", "Success");
             $scope.newCampaign.info = CampaignObj;
             $scope.selected.subType = '';
             $location.path("/campaign");
-            $scope.creatingCampaign=false;
+            $scope.creatingCampaign = false;
         }, function (errorMsg) {
             toastr.error(errorMsg, "Failed");
-            $scope.creatingCampaign=false;
+            $scope.creatingCampaign = false;
         });
     };
     editableOptions.theme = 'bs3';

@@ -31,7 +31,7 @@
                                      ng-class="{'has-error': editCampaign.form1.name.$invalid && (editCampaign.form1.name.$dirty || editCampaign.form1.$submitted)}">
                                     <label for="name">Campaign Title <span class="note-text">*</span></label>
                                     <input type="text" class="form-control" id="name"
-                                           name="name" placeholder="Campaign Title"
+                                           name="name" placeholder="Campaign Title" maxlength="150"
                                            ng-model="editCampaign.info.name" required>
                                     <span class="help-block error-block basic-block"
                                           ng-if="editCampaign.form1.name.$invalid && editCampaign.form1.name.$dirty">Required</span>
@@ -46,10 +46,10 @@
                                             ng-model="selected.subType" placeholder="Select Sub Type"
                                             name="subType" id="subType" ng-required="true"
                                             ng-options="item as item.label for item in CampaignSubTypeList" required>
-                                        <option value="">Select Sub Type</option>
+                                        <option value="">Select Mode</option>
                                     </select>
                                     <span class="help-block error-block basic-block"
-                                          ng-if="editCampaign.form1.subType.$invalid && editCampaign.form1.subType.$dirty">Select sub type is required field</span>
+                                          ng-if="editCampaign.form1.subType.$invalid && editCampaign.form1.subType.$dirty">Select mode is required field</span>
                                 </div>
                             </div>
                         </div>
@@ -94,22 +94,22 @@
                             </div>
                         </div>
                         <div class="row">
-                           <!-- <div class="col-md-6">
+                            <div class="col-md-6">
                                 <div class="form-group"
                                      ng-class="{'has-error': editCampaign.form1.closeMessage.$invalid && (editCampaign.form1.closeMessage.$dirty || editCampaign.form1.$submitted)}">
-                                    <label for="emailTemplate">Close Message <span class="note-text">*</span></label>
-                                    &lt;!&ndash;  <i class="fa fa-info-circle template-info cursor pull-right fa-lg"
+                                    <label for="emailTemplate">Expiry Message <span class="note-text">*</span></label>
+                                    <!--  <i class="fa fa-info-circle template-info cursor pull-right fa-lg"
                                          ng-click="openPlaceHolderInfoBox1(true,false)"
-                                         aria-hidden="true"></i>&ndash;&gt;
+                                         aria-hidden="true"></i>-->
                                     <span class="text-count pull-right">{{editCampaign.info.closeMessage.length +"/"+600}}</span>
                                     <textarea class="form-control" name="closeMessage" id="emailTemplate"
-                                              placeholder="Close message" rows="2" maxlength="600"
+                                              placeholder="Expiry message" rows="2" maxlength="600"
                                               ng-model="editCampaign.info.closeMessage" required>
                                   </textarea>
                                     <span class="help-block error-block basic-block"
                                           ng-if="editCampaign.form1.closeMessage.$invalid && editCampaign.form1.closeMessage.$dirty">Required</span>
                                 </div>
-                            </div>-->
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-group"
                                      ng-class="{'has-error': editCampaign.form1.smsTemplate.$invalid && (editCampaign.form1.smsTemplate.$dirty || editCampaign.form1.$submitted)}">
@@ -127,15 +127,34 @@
                                 </div>
                             </div>
                         </div>
-                        <!--<div class="row">
-                            <div class="col-md-6" ng-if="selected.subType.id===2">
+                        <div class="row">
+                            <div class="col-md-6">
                                 <div class="form-group"
-                                ng-class="{'has-error': editCampaign.form1.mobileCsv.$invalid && (editCampaign.form1.mobileCsv.$dirty || editCampaign.form1.$submitted)}">
+                                     ng-class="{'has-error': editCampaign.form1.cityIds.$invalid && (editCampaign.form1.cityIds.$dirty || editCampaign.form1.$submitted)}">
+                                    <label for="smsTemplate">Select Cities <span class="note-text">*</span></label>
+                                    <ui-select ng-required="true" id="cityIds" name="cityIds"
+                                               theme="bootstrap" multiple class="form-control"
+                                               close-on-select="false" ng-model="selected.city">
+                                        <ui-select-match placeholder="Select Cities">
+                                            <span ng-bind="$item.cityName"></span>
+                                        </ui-select-match>
+                                        <ui-select-choices
+                                                repeat="item in (cityList | filter: $select.search) track by item.cityId">
+                                            <span ng-bind="item.cityName"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <span class="help-block error-block basic-block" style="color: #a94442;"
+                                          ng-if="editCampaign.form1.cityIds.$invalid && editCampaign.form1.cityIds.$dirty">City is required field</span>
+                                </div>
+                            </div>
+                           <!-- <div class="col-md-6" ng-if="selected.subType.id===2">
+                                <div class="form-group"
+                                     ng-class="{'has-error': editCampaign.form1.mobileCsv.$invalid && (editCampaign.form1.mobileCsv.$dirty || editCampaign.form1.$submitted)}">
                                     <label for="mobileCsv">Upload Mobile Csv <span
                                             class="non-mandatory">(Optional)</span></label>
                                     &lt;!&ndash;   <i class="fa fa-info-circle template-info cursor pull-right fa-lg"
-                                          ng-click="csvInstruction(false,true)"
-                                          aria-hidden="true"></i>&ndash;&gt;
+                                                      ng-click="csvInstruction(false,true)"
+                                                      aria-hidden="true"></i>&ndash;&gt;
                                     <input class="form-control" type="file" id="mobileCsv"
                                            ngf-select="uploadMobileCsv($file)"
                                            ng-model="upload.mobileCsv" pattern="'.csv'" accept=".csv"
@@ -150,8 +169,8 @@
                                     <span class="help-block error-block basic-block"
                                           ng-if="editCampaign.form1.mobileCsv.$invalid && editCampaign.form1.mobileCsv.$dirty">Required</span>
                                 </div>
-                            </div>
-                        </div>-->
+                            </div>-->
+                        </div>
                     </form>
                     <div class="row">
                         <div class="col-md-12">
@@ -172,26 +191,35 @@
                     <p>Please add voucher details!</p>
                     <form name="editCampaign.form3" class="animated fadeIn" novalidate>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group has-feedback"
                                      ng-class="{'has-error': editCampaign.form3.title.$invalid && (editCampaign.form3.title.$dirty || editCampaign.form3.$submitted)}">
                                     <label for="headerTitle">Header Title <span class="note-text">*</span></label>
                                     <input type="text" class="form-control" id="headerTitle"
-                                           name="title" placeholder="Header Title"
+                                           name="title" placeholder="Header Title" maxlength="150"
                                            ng-model="editCampaign.info.termsAndCondition.title" required>
                                     <span class="help-block error-block basic-block"
                                           ng-if="editCampaign.form3.title.$invalid && editCampaign.form3.title.$dirty">Required</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="description">Description <span
+                                            class="non-mandatory">(Optional)</span></label>
+                                    <input type="text" class="form-control" id="description" maxlength="300"
+                                           name="description" placeholder="Description"
+                                           ng-model="editCampaign.info.termsAndCondition.description">
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="description">Description <span
+                                    <label for="description">Short Message <span
                                             class="non-mandatory">(Optional)</span></label>
-                                    <input type="text" class="form-control" id="description"
-                                           name="description" placeholder="Description"
-                                           ng-model="editCampaign.info.termsAndCondition.description">
+                                    <input type="text" class="form-control" id="shortMessage"
+                                           name="description" placeholder="Short Message" maxlength="300"
+                                           ng-model="editCampaign.info.termsAndCondition.customMessage">
                                 </div>
                             </div>
                         </div>
