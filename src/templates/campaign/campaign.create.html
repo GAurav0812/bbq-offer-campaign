@@ -203,7 +203,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6" ng-if="selected.subType.id===2">
+                                <div class="col-md-6" ng-if="selected.subType.id===2 || selected.subType.id===4">
                                     <div class="form-group"
                                          ng-class="{'has-error': newCampaign.form1.csvFile.$invalid && (newCampaign.form1.csvFile.$dirty || newCampaign.form1.$submitted)}">
                                         <label for="csvFile">Upload Mobile Csv <span
