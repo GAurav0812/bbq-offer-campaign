@@ -2,6 +2,7 @@
 angular.module('RDash.services').factory('AuthenticationService',['Base64', '$http', '$q', 'HttpService', '$cookieStore', '$rootScope' ,function(Base64, $http, $q, HttpService, $cookieStore, $rootScope) {
 
     var httpService = new HttpService("user");
+    var logoutService = new HttpService("user/logout");
 
     var AuthenticationService = {};
 
@@ -57,7 +58,7 @@ angular.module('RDash.services').factory('AuthenticationService',['Base64', '$ht
     };
 
     AuthenticationService.logout = function () {
-        return httpService.get('logout');
+        return logoutService.get('');
     };
 
     AuthenticationService.setCredentials = function (username, password, sessionId) {

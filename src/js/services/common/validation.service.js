@@ -7,7 +7,7 @@ angular.module('RDash.services').factory('ValidationServices', function () {
     };
 
     _validations.isInteger = function isInteger(num) {
-        return !isNaN(num) && num != 0;
+        return !isNaN(num) && num !== 0;
     };
     _validations.isUnselected = function isUnselected(value) {
         return angular.isDefined(value)

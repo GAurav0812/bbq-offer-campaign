@@ -41,7 +41,7 @@
                         <thead>
                         <tr class="sortable ">
                             <th class="table-id" st-sort="id"><b>ID</b></th>
-                            <th st-sort="name"><b><i class="fa fa-user" aria-hidden="true"></i> NAME</b></th>
+                            <th st-sort="name"><b>NAME</b></th>
                             <th><b>TYPE</b></th>
                             <th><b><i class="fa fa-share-alt fa-md"></i> LINK</b></th>
                             <th><b>STATUS</b></th>
@@ -76,12 +76,11 @@
                             <td>{{item.id}}</td>
                             <td class="multiline-cell ng-binding" text="item.name">
                                 <div>{{item.name}}</div>
-                                <div class="sub"><span>{{item.description}}</span>
-                                </div>
+                                <!--<div class="sub"><span>{{item.description}}</span></div>-->
                             </td>
                             <td class="multiline-cell" text="item.type" class="ng-binding">
                                 <div>{{item.type}}</div>
-                                <!--<div class="sub">{{item.subType}}</div>-->
+                                <div class="sub">{{item.subType}}</div>
                             </td>
                             <td>
                                 <button class="btn btn-link btn-xs" ng-if="item.status=='A'"
@@ -101,11 +100,11 @@
                                 <a ng-if="item.status=='A'" href="{{domain}}?cid={{item.linkHashId}}" target="_blank" class="btn btn-warning btn-xs btn-raised" data-toggle="modal"
                                    data-toggle="tooltip" title="Preview Final Template">Preview <i class="fa fa-eye fa-md"></i>
                                 </a>
-                                <button class="btn btn-primary btn-xs btn-raised"
-                                        ng-if="item.type==='SURVEY' || item.type==='Survey'"
+                                <button class="btn btn-danger btn-xs btn-raised"
+                                        ng-if="item.type==='SURVEY' || item.type==='NORMAL'"
                                         data-toggle="modal" data-toggle="tooltip"
                                         title="View Registered Customer"
-                                        ng-click="goToCustomerListPage(item)">Registered
+                                        ng-click="goToCustomerListPage(item)">Export <i class="fa fa-file fa-md"></i>
                                 </button>
                             </td>
                         </tr>

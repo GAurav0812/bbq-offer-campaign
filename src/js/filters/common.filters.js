@@ -2,6 +2,7 @@
 
 angular.module('RDash.filters', [])
     .filter('statusFullForm', statusFullForm)
+    .filter('subTypeFilter', subTypeFilter)
     .filter('emptyInputFilter', emptyInputFilter)
     .filter('dateFilter', dateFilter)
     .filter('arrayToStringFilter', arrayToStringFilter)
@@ -19,13 +20,19 @@ function timeFilter($filter) {
 
 function arrayToStringFilter() {
     return function (array) {
-        return array.toString();
+        return array.length > 0 ? array.toString() : "-";
+    };
+}
+
+function subTypeFilter() {
+    return function (value) {
+        return value === 2 ? "Open Campaign" : "Pre-validated Campaign";
     };
 }
 
 function campaignDateFilter() {
     return function (value) {
-        if (value != "" && value != null) {
+        if (value !== "" && value != null) {
             var date = value.split(" ");
             return date[0];
         } else {
@@ -72,7 +79,7 @@ function dateMonthFilter($filter) {
 
 function emptyInputFilter() {
     return function (value) {
-        return value == "" || value == "NULL" || value == null || value == "0" ? "<em class='text-color-muted '><small>No Value</small></em>" : value;
+        return value === "" || value === "NULL" || value == null || value === "0" ? "-" : value;
     };
 }
 

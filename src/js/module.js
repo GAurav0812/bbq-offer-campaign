@@ -1,1 +1,1 @@
-angular.module('RDash', ['ngAnimate','ui.bootstrap','ngFileUpload','mgo-angular-wizard','ui.router','ngCookies','angular-confirm','ui.validate','ui.select','smart-table','xeditable','RDash.services','RDash.filters','RDash.pages','toastr','ngClickCopy']);
+angular.module('RDash', ['ngAnimate','ui.bootstrap','ngFileUpload','mgo-angular-wizard','ui.router','ngCookies','angular-confirm','ui.validate','ui.select','smart-table','xeditable','RDash.services','RDash.filters','RDash.pages','toastr','am.multiselect','ngClickCopy']);

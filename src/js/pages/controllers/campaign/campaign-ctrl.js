@@ -4,9 +4,9 @@
 
 angular
     .module('RDash.pages')
-    .controller('CampaignCtrl', ['$scope', '$q','$rootScope', '$timeout', 'ValidationServices', 'HttpService', 'Campaign', '$uibModal', 'Upload', 'toastr', '$window', '$location', 'editableOptions', 'editableThemes', CampaignCtrl]);
+    .controller('CampaignCtrl', ['$scope', '$http', '$filter', '$q', '$rootScope', '$timeout', 'ValidationServices', 'HttpService', 'Campaign', '$uibModal', 'Upload', 'toastr', '$window', '$location', 'editableOptions', 'editableThemes', CampaignCtrl]);
 
-function CampaignCtrl($scope, $q, $rootScope,$timeout, ValidationServices, HttpService, Campaign, $uibModal, Upload, toastr, $window, $location, editableOptions, editableThemes) {
+function CampaignCtrl($scope, $http, $filter, $q, $rootScope, $timeout, ValidationServices, HttpService, Campaign, $uibModal, Upload, toastr, $window, $location, editableOptions, editableThemes) {
 
     $scope.format = 'dd-MMMM-yyyy';
     $scope.curDate = new Date();
@@ -37,33 +37,92 @@ function CampaignCtrl($scope, $q, $rootScope,$timeout, ValidationServices, HttpS
         {id: 'A', text: 'Active'},
         {id: 'I', text: 'InActive'}
     ];
+    $scope.campaignStartPage = true;
+    $scope.startCreateCampaign = function () {
+        getSubTypeList();
+        $scope.campaignStartPage = !$scope.campaignStartPage;
+    };
+    $scope.backToSelectionForm=function(){
+        $scope.campaignStartPage = !$scope.campaignStartPage;
+    };
+    $scope.CampaignTypeList = [
+        {id: 'NORMAL', text: 'Normal'},
+        {id: 'SURVEY', text: 'Survey'}
+    ];
+    $scope.branchList = [];
 
     function getSubTypeList() {
-        var subTypeList = new HttpService("campaign/list/subType/normal");
+        var postMethod = '';
+        postMethod = $scope.selected.type === 'NORMAL' ? 'normal' : 'survey';
+        var subTypeList = new HttpService("campaign/list/subType/"+postMethod);
         subTypeList.get("").then(function (data) {
             $scope.CampaignSubTypeList = data.subTypes;
         }, function (e) {
             //displayToast("error", 'Error while Fetching data.Try Again!')
         });
     }
+
     function getCityList() {
-        var cityList = new HttpService("campaign/list/city");
-        cityList.get("").then(function (data) {
-            $scope.cityList = JSON.parse(data.city);
+        $http.get("../../campaignData/city.json").then(function (response) {
+            $scope.cityList = response.data.city;
         }, function (e) {
             toastr.error('Failed!Unable to fetch City List!', "Try Again");
             //displayToast("error", 'Error while Fetching data.Try Again!')
         });
     }
 
+    $scope.getBranchByCityId = function () {
+        $scope.branchList = [];
+        var tempBranchList = $scope.selected.branch;
+        for (var i = 0; i < $scope.selected.city.length; i++) {
+            for (var j = 0; j < $scope.selected.city[i].branch.length; j++) {
+                $scope.branchList.push($scope.selected.city[i].branch[j]);
+            }
+        }
+    };
+
+    /*   $scope.onCitySelected = function () {
+           for (var i = 0; i < $scope.selected.city.length; i++) {
+               if (angular.isDefined($scope.selected.branch)) {
+                   for (var j = 0; j < $scope.selected.branch.length; j++) {
+                       if ($scope.selected.city[i].cityId !== $scope.selected.branch[j].cityId) {
+                           $scope.selected.branch.splice(j, 1);
+                       }
+                   }
+               }
+           }
+       };*/
+
+    function arrayObjectIndexOf(myArray, searchTerm, property) {
+        for (var i = 0, len = myArray.length; i < len; i++) {
+            if (myArray[i][property] === searchTerm) return i;
+        }
+        return -1;
+    }
+
     $scope.isNumeric = ValidationServices.isNumeric;
+    $scope.isInteger = function isInteger(val) {
+        var regex = /^\d+$/;
+        return regex.test(val);
+    };
     $scope.isValidSmsTemplate = function isValidSmsTemplate(val) {
         return !!val.includes("%cpn%");
     };
-    getSubTypeList();
+    $scope.isValidFillText = function isValidFillText(type, val) {
+        if (angular.isDefined(val)) {
+            if (type === 'FILLTEXT') {
+                return !!val.includes("%_%");
+            } else {
+                return true
+            }
+        }
+    };
     getCampaignList();
     getCityList();
     $scope.allCity = {
+        checked: false
+    };
+    $scope.allBranch = {
         checked: false
     };
     var CampaignObj = {
@@ -72,14 +131,27 @@ function CampaignCtrl($scope, $q, $rootScope,$timeout, ValidationServices, HttpS
         mobileCsv: "",
         subTypeId: null,
         name: "",
-        createdBy:parseInt($rootScope.globals.currentUser.userId),
-        questionTemplate: null,
+        createdBy: parseInt($rootScope.globals.currentUser.userId),
+        questionTemplate: {
+            questions: [
+                {
+                    answers: [
+                        {
+                            description: ""
+                        }
+                    ],
+                    description: "",
+                    type: ""
+                }
+            ],
+            title: new Date().getTime()
+        },
         smsTemplate: "Your celebration starts when you get to share this exclusive code %cpn%, during your visit to Barbeque Nation.",
         startDate: "",
         termsTemplate: {
             title: "",
             description: "",
-            customMessage:"",
+            customMessage: "",
             offerDetails: [
                 {
                     paxNo: "",
@@ -96,6 +168,7 @@ function CampaignCtrl($scope, $q, $rootScope,$timeout, ValidationServices, HttpS
         type: "NORMAL"
     };
     $scope.newCampaign = {
+        start: {},
         form1: {},
         form2: {},
         form3: {},
@@ -117,10 +190,13 @@ function CampaignCtrl($scope, $q, $rootScope,$timeout, ValidationServices, HttpS
     $scope.goToEditPage = function (item) {
         $location.path('/campaign/edit/' + item.id);
     };
+    $scope.goToCustomerListPage = function (item) {
+        $location.path('/campaign/customers/' + item.id);
+    };
 
     $scope.open1 = function () {
         $scope.popup1.opened = true;
-        //$scope.newCampaign.info.endDate='';
+        $scope.newCampaign.info.endDate='';
     };
     $scope.popup1 = {
         opened: false
@@ -132,6 +208,11 @@ function CampaignCtrl($scope, $q, $rootScope,$timeout, ValidationServices, HttpS
     $scope.popup2 = {
         opened: false
     };
+    $scope.questionType = [
+        {value: 'SINGLESELECT', label: 'Single Selection'},
+        {value: 'MULTISELECT', label: 'Multi Selection'},
+        {value: 'OPENTEXT', label: 'Open Text'},
+        {value: 'FILLTEXT', label: 'Fill in the blank'}];
 
     function setMinMaxDate(dt) {
         var date = new Date(dt);
@@ -144,10 +225,55 @@ function CampaignCtrl($scope, $q, $rootScope,$timeout, ValidationServices, HttpS
             $scope.newCampaign.info.termsTemplate.offerDetails.splice(index + 1, 0, obj);
         }
     };
+    $scope.questionFormat = [{description: '', type: "", answers: [{description: ""}]}];
+
+    $scope.addNewColumn = function () {
+        var newItemNo = $scope.questionFormat.length + 1;
+        $scope.questionFormat.push({
+            description: '',
+            type: "",
+            answers: [{description: ""}]
+        });
+    };
+
+
+    $scope.removeColumn = function (index) {
+        $scope.questionFormat.splice(index, 1);
+        if ($scope.questionFormat.length() === 0 || $scope.questionFormat.length() == null) {
+            $scope.questionFormat.push = [{
+                description: '',
+                type: "",
+                answers: [{description: ""}]
+            }];
+        }
+    };
+
+    $scope.addQuestion = function (item, index) {
+        var questionIndex = $scope.questionFormat.indexOf(item);
+        var obj = {description: ""};
+        if ($scope.questionFormat[questionIndex].answers.length <= index + 1) {
+            $scope.questionFormat[questionIndex].answers.splice(index + 1, 0, obj);
+        }
+    };
     $scope.deleteRow = function ($event, index) {
         if ($event.which == 1)
             $scope.newCampaign.info.termsTemplate.offerDetails.splice(index, 1);
     };
+    $scope.deleteQuestion = function ($event, item, index) {
+        var questionIndex = $scope.questionFormat.indexOf(item);
+        if ($event.which == 1)
+            $scope.questionFormat[questionIndex].answers.splice(index, 1);
+    };
+    $scope.setAnswerData = function (item, index) {
+        if (item.type === 'FILLTEXT')
+            $scope.questionFormat[index].description = undefined;
+    };
+    /*  $scope.$watch('selected.type', function () {
+          if (angular.isDefined($scope.selected.type)) {
+
+          }
+      });*/
+
     $scope.csv = {
         file: undefined,
     };
@@ -231,21 +357,62 @@ function CampaignCtrl($scope, $q, $rootScope,$timeout, ValidationServices, HttpS
 
     $scope.creatingCampaign = false;
     $scope.createCampaign = function () {
-        var cityIds = [];
+        var city = {
+            allSelected: false,
+            cityId: []
+        };
+        var branch = {
+            allSelected: false,
+            branchId: []
+        };
         $scope.isLoading = true;
-      /*  if($scope.allCity.checked){
-            for (var i = 0; i < $scope.cityList.length; i++) {
-                cityIds.push($scope.cityList[i].cityId);
-            }
-        }else {*/
+        if ($scope.allCity.checked) {
+            city.allSelected = true;
+            /* for (var i = 0; i < $scope.cityList.length; i++) {
+                 city.cityIds.push($scope.cityList[i].cityId);
+             }*/
+        } else {
+            city.allSelected = false;
             for (var i = 0; i < $scope.selected.city.length; i++) {
-                cityIds.push($scope.selected.city[i].cityId);
+                if (!$scope.allBranch.checked) {
+                    var tempBranch = $filter('filter')($scope.selected.branch, {cityId: $scope.selected.city[i].cityId});
+                    if (angular.isDefined(tempBranch[0])) {
+                        city.cityId.push($scope.selected.city[i].cityId);
+                    }
+                } else {
+                    city.cityId.push($scope.selected.city[i].cityId);
+                }
             }
-        /*}*/
+        }
+
+        if ($scope.allBranch.checked) {
+            branch.allSelected = true;
+            /* for (var i = 0; i < $scope.cityList.length; i++) {
+                 city.cityIds.push($scope.cityList[i].cityId);
+             }*/
+        } else {
+            branch.allSelected = false;
+            for (var j = 0; j < $scope.selected.branch.length; j++) {
+                var tempCity = $filter('filter')($scope.selected.city, {cityId: $scope.selected.branch[j].cityId});
+                if (angular.isDefined(tempCity[0])) {
+                    branch.branchId.push($scope.selected.branch[j].branchId);
+                }
+            }
+        }
         $scope.creatingCampaign = true;
+        var postMethod = '';
         $scope.newCampaign.info.subTypeId = $scope.selected.subType.id;
-        var createCampaign = new HttpService("campaign/create/normal");
-        createCampaign.post('', Campaign.createObject($scope.newCampaign.info,cityIds)).then(function (response) {
+        postMethod = $scope.selected.type === 'NORMAL' ? 'normal' : 'survey';
+        switch ($scope.selected.type) {
+            case 'NORMAL':
+                $scope.newCampaign.info.questionTemplate = null;
+                break;
+            default:
+                $scope.newCampaign.info.questionTemplate.questions = $scope.questionFormat;
+                break;
+        }
+        var createCampaign = new HttpService("campaign/create/" + postMethod);
+        createCampaign.post('', Campaign.createObject($scope.newCampaign.info, city, branch)).then(function (response) {
             toastr.success("Campaign created successfully!", "Success");
             $scope.newCampaign.info = CampaignObj;
             $scope.selected.subType = '';

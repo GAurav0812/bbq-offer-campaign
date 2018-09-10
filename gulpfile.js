@@ -13,8 +13,16 @@ var gulp = require('gulp'),
     bs = require('browser-sync').create();
 
 var apiserver = proxyMiddleware('/instant-1.0/rest', {
+    //target: 'http://192.168.0.112:8080/',
+    target: 'http://bbqnoffer.carufus.com/',
+    //target: 'http://localhost:8080/',
+    changeOrigin: true,             // for vhosted sites, changes host header to match to target's host
+    logLevel: 'debug'
+});
+var apiserver2 = proxyMiddleware('/campaignData/', {
     //target: 'http://10.10.0.18:80/',
-    target: 'http://barbeque.theuniquemedia.in:8080/',
+    target: 'http://bbqnoffer.carufus.com/',
+    //target: 'http://localhost:8080/',
     changeOrigin: true,             // for vhosted sites, changes host header to match to target's host
     logLevel: 'debug'
 });
@@ -101,8 +109,8 @@ gulp.task('webserver', function () {
         root: 'dist',
         livereload: true,
         port: 8888,
-        middleware: function(connect, opt) {
-            return [apiserver]
+        middleware: function (connect, opt) {
+            return [apiserver,apiserver2]
         }
     });
 });

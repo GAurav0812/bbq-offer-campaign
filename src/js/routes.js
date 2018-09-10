@@ -54,6 +54,13 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider',
                 controller: 'EditCampaignCtrl',
                 title: 'Campaign',
                 subTitle: 'Campaign / Edit'
+            })
+            .state('campaignCustomers', {
+                url: '/campaign/customers/:campaignId',
+                templateUrl: 'templates/campaign/campaign.customers.html',
+                controller: 'CampaignCustomerCtrl',
+                title: 'Customers',
+                subTitle: 'Campaign / Registered Customers'
             });
     }
 ]);

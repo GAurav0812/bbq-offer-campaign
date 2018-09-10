@@ -1,0 +1,148 @@
+<div class="row">
+    <div class="col-sm-12">
+        <button class="btn btn-info btn-sm" ng-back><i
+                class="fa fa-arrow-left fa-lg"></i> Back
+        </button>
+    </div>
+    <br><br>
+    <div class="horizontal-scroll">
+        <!--  <div class="row">
+              <label class="col-sm-2 pull-right">Rows on page
+                  <select class="form-control selectpicker show-tick" title="Rows on page" selectpicker
+                          ng-model="campaignPageSize" ng-options="i for i in [5,10,15,20,25]">
+                  </select>
+              </label>
+          </div>-->
+        <div class="panel profile-panel animated zoomIn">
+            <div class="panel-heading panel-background">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-8 col-lg-10">
+                        <h3 class="panel-title"><span class="menu-icon fa fa-users"></span> Registered Customers </h3>
+                    </div>
+                    <div class="col-xs-6 col-sm-4 col-lg-2 pull-right">
+                        <!-- <button class="btn btn-primary btn-sm pull-right "  ng-if="customerData.length>0"
+                                 ng-click="exportToExcel(['customerTableToExport'], ['Customers'], 'Customers.xls', 'Excel')">
+                             <span class="glyphicon glyphicon-share"></span> Export to Excel
+                         </button>--> <!--//multiple worksheet-->
+                        <button class="btn btn-primary btn-sm pull-right " ng-if="customerData.length>0"
+                                ng-click="exportToExcel()">
+                            <span class="glyphicon glyphicon-share"></span> Export to Excel
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="!customerData"><!--
+                <div class="circle-spinner"></div>-->
+                <div class="sk-fading-circle">
+                    <div class="sk-circle1 sk-circle"></div>
+                    <div class="sk-circle2 sk-circle"></div>
+                    <div class="sk-circle3 sk-circle"></div>
+                    <div class="sk-circle4 sk-circle"></div>
+                    <div class="sk-circle5 sk-circle"></div>
+                    <div class="sk-circle6 sk-circle"></div>
+                    <div class="sk-circle7 sk-circle"></div>
+                    <div class="sk-circle8 sk-circle"></div>
+                    <div class="sk-circle9 sk-circle"></div>
+                    <div class="sk-circle10 sk-circle"></div>
+                    <div class="sk-circle11 sk-circle"></div>
+                    <div class="sk-circle12 sk-circle"></div>
+                </div>
+            </div>
+            <div  ng-if="customerData" class="panel-body">
+                <div class="table-responsive" style="margin-top: 30px!important;">
+                    <table class="table table-responsive" st-table="customerData"
+                           st-safe-src="customerMasterData">
+                        <thead>
+                        <tr class="sortable ">
+                            <th class="table-id" st-sort="id"><b>ID</b></th>
+                            <th><b>COUPON</b></th>
+                            <th st-sort="mobile"><b><i class="fa fa-mobile-phone" aria-hidden="true"></i> MOBILE</b></th>
+                            <th><b>DATE</b></th>
+                            <th ng-if="campaignInfo.type==='SURVEY'" colspan="{{tableHeader.length}}"><b>SURVEY DETAILS</b></th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th><input st-search="mobile" placeholder="Search Mobile"
+                                       class="input-sm form-control search-input"
+                                       type="search"/></th>
+                            <th></th>
+                            <th ng-if="campaignInfo.type==='SURVEY'" ng-repeat="ques in tableHeader">{{ques.title}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in customerData">
+                            <td>{{$index+1}}</td>
+                            <td>
+                                <strong><b>{{item.coupon|emptyInputFilter}}</b></strong>
+                            </td>
+                            <td>
+                                <strong><b>{{item.mobileNo|emptyInputFilter}}</b></strong>
+                            </td>
+                            <td><div>{{item.surveyDate|date:'dd-MMMM-yyyy h:mm:ss A'}}</div>
+                            </td>
+                            <td ng-if="campaignInfo.type==='SURVEY'" ng-repeat="ans in item.surveyDetails">
+                                <div class="cut-text">{{ans.answers|arrayToStringFilter}}</div>
+                            </td>
+                        </tr>
+                        <tr ng-if="campaignInfo.type==='SURVEY'">
+                            <td colspan="{{4 + tableHeader.length}}" class="text-center"
+                                ng-if="customerData.length==0 && customerData">
+                                <label>No data available</label>
+                            </td>
+                        </tr>
+                        <tr ng-if="campaignInfo.type==='NORMAL'">
+                            <td colspan="4" class="text-center"
+                                ng-if="customerData.length==0 && customerData">
+                                <label>No data available</label>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="{{4 + tableHeader.length}}" class="text-center">
+                                <div st-pagination="" st-items-by-page="campaignPageSize" st-displayed-pages="10"></div>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div ng-hide="true">
+                    <table id="customerTableToExport" st-table="customerMasterData" class="table">
+                        <thead>
+                        <tr style="background-color:#458b74;color:#ffffff">
+                            <th><b>ID</b></th>
+                            <th><b>COUPON</b></th>
+                            <th><b>MOBILE</b></th>
+                            <th><b>DATE</b></th>
+                            <th ng-if="campaignInfo.type==='SURVEY'" colspan="{{tableHeader.length}}"><b>SURVEY DETAILS</b></th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th ng-if="campaignInfo.type==='SURVEY'" ng-repeat="ques in tableHeader">{{ques.title}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in customerMasterData">
+                            <td>{{$index+1}}</td>
+                            <td>
+                                <strong><b>{{item.coupon|emptyInputFilter}}</b></strong>
+                            </td>
+                            <td>
+                                <strong><b>{{item.mobileNo|emptyInputFilter}}</b></strong>
+                            </td>
+                            <td><div>{{item.surveyDate|date:'dd-MMMM-yyyy h:mm:ss A'}}</div></td>
+                            <td ng-if="campaignInfo.type==='SURVEY'" ng-repeat="ans in item.surveyDetails">
+                                <span>{{ans.answers|arrayToStringFilter}}</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
