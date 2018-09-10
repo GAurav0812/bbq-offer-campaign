@@ -79,7 +79,7 @@
                             <td>
                                 <strong><b>{{item.mobileNo|emptyInputFilter}}</b></strong>
                             </td>
-                            <td><div>{{item.surveyDate|date:'dd-MMMM-yyyy h:mm:ss A'}}</div>
+                            <td><div>{{item.surveyDate|emptyInputFilter}}</div>
                             </td>
                             <td ng-if="campaignInfo.type==='SURVEY'" ng-repeat="ans in item.surveyDetails">
                                 <div class="cut-text">{{ans.answers|arrayToStringFilter}}</div>
@@ -134,7 +134,7 @@
                             <td>
                                 <strong><b>{{item.mobileNo|emptyInputFilter}}</b></strong>
                             </td>
-                            <td><div>{{item.surveyDate|date:'dd-MMMM-yyyy h:mm:ss A'}}</div></td>
+                            <td><div>{{item.surveyDate|emptyInputFilter}}</div></td>
                             <td ng-if="campaignInfo.type==='SURVEY'" ng-repeat="ans in item.surveyDetails">
                                 <span>{{ans.answers|arrayToStringFilter}}</span>
                             </td>

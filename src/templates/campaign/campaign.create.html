@@ -256,6 +256,16 @@
                         <div>
                             <form name="newCampaign.form2" class="animated fadeIn" novalidate>
                                 <fieldset ng-repeat="item in questionFormat" class="ques-fieldset">
+                                    <div class="form-group col-md-3 col-xs-6"
+                                         ng-class="{'has-error': newCampaign.form2.questionType{{$index+1}}.$invalid && (newCampaign.form2.questionType{{$index+1}}.$dirty || newCampaign.form2.$submitted)}">
+                                        <label for="questionType">Question Type<span class="note-text">*</span></label>
+                                        <select class="form-control"
+                                                ng-model="item.type" ng-change="setAnswerData(item,$index)"
+                                                id="questionType" name="questionType{{$index+1}}"
+                                                ng-options="g.value as g.label for g in questionType" required>
+                                            <option value="">Select Question Type</option>
+                                        </select>
+                                    </div>
                                     <div class="form-group col-md-9 col-xs-6"
                                          ng-class="{'has-error': newCampaign.form2.description{{$index+1}}.$invalid && (newCampaign.form2.description{{$index+1}}.$dirty || newCampaign.form2.$submitted)}">
                                         <label for="smsTemplate">Question? <span class="note-text">*</span></label>
@@ -268,16 +278,6 @@
                                                ng-model="item.description"
                                                ui-validate="'isValidFillText(item.type,$value)'"
                                                placeholder="Write your question here" required>
-                                    </div>
-                                    <div class="form-group col-md-3 col-xs-6"
-                                         ng-class="{'has-error': newCampaign.form2.questionType{{$index+1}}.$invalid && (newCampaign.form2.questionType{{$index+1}}.$dirty || newCampaign.form2.$submitted)}">
-                                        <label for="questionType">Question Type<span class="note-text">*</span></label>
-                                        <select class="form-control"
-                                                ng-model="item.type" ng-change="setAnswerData(item,$index)"
-                                                id="questionType" name="questionType{{$index+1}}"
-                                                ng-options="g.value as g.label for g in questionType" required>
-                                            <option value="">Select Question Type</option>
-                                        </select>
                                     </div>
                                     <div ng-if="item.type!=='OPENTEXT' && item.type!=='FILLTEXT'&& item.type">
                                         <div class="col-md-12">
@@ -463,8 +463,12 @@
                             <tr class="readonly-input">
                                 <td colspan="4" class="text-center">Survey Questionnaire</td>
                             </tr>
-                            <tr>
+                            <tr ng-if="selected.type==='NORMAL'">
                                 <td colspan="4"><em>Not Applicable</em></td>
+                            </tr>
+                            <tr ng-if="selected.type==='SURVEY'" ng-repeat="ques in questionFormat">
+                                <td colspan="3">{{ques.description}}</td>
+                                <td colspan="3">{{ques.type}}</td>
                             </tr>
                             <tr class="readonly-input">
                                 <td colspan="4" class="text-center">Header Information</td>
