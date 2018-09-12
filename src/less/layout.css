@@ -1,9 +1,10 @@
-ul.sidebar .sidebar-list a:active {
-    color: #fff!important;
-    border-left: 3px solid #e99d1a!important;
-    text-indent: 22px!important;
+ul .sidebar .sidebar-list a:active {
+    color: #fff;
+    border-left: 3px solid #e99d1a;
+    text-indent: 22px;
 }
-.selectedMenu{
+
+.selected-menu{
     color: #fff!important;
     border-left: 3px solid #e99d1a!important;
     text-indent: 22px!important;

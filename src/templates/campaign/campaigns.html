@@ -18,151 +18,242 @@
                     </div>
                 </div>
             </div>
-            <div class="panel-body">
-                <!-- <div>
-                     <div class="pull-right" style="margin-top: -15px;">
-                         <label class="custom-checkbox" style="margin-top: 23px; margin-left: 15px;">
-                             <input type="checkbox" ng-model="checked.allCamp" ng-change="onAllCampCheckbox()">
-                             <span class="isAllowSlotFull">All</span>
-                         </label>
-                         <label class="custom-checkbox" style="margin-top: 23px; margin-left: 15px;">
-                             <input type="checkbox" ng-model="checked.normalCamp" ng-change="onNormalCampCheckbox()">
-                             <span class="isAllowSlotFull">Normal</span>
-                         </label>
-                         <label class="custom-checkbox" style="margin-top: 23px; margin-left: 15px;">
-                             <input type="checkbox" ng-model="checked.promoCamp" ng-change="onPromoCampCheckbox()">
-                             <span class="isAllowSlotFull">Promotion</span>
-                         </label>
-                     </div>
-                 </div>-->
-                <div class="table-responsive" style="margin-top: 30px!important;">
-                    <table class="table table-responsive" st-table="campaignListData"
-                           st-safe-src="campaignListMasterData">
-                        <thead>
-                        <tr class="sortable ">
-                            <th class="table-id" st-sort="id"><b>ID</b></th>
-                            <th st-sort="name"><b>NAME</b></th>
-                            <th><b>TYPE</b></th>
-                            <th><b><i class="fa fa-share-alt fa-md"></i> LINK</b></th>
-                            <th><b>STATUS</b></th>
-                            <th><b>ACTION</b></th>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <th><input st-search="name" placeholder="Search Campaign"
-                                       class="input-sm form-control search-input"
-                                       type="search"/></th>
+            <uib-tabset active="activeTab">
+                <uib-tab index="0" heading="Normal">
+                    <div class="panel-body">
+                        <!-- <div>
+                             <div class="pull-right" style="margin-top: -15px;">
+                                 <label class="custom-checkbox" style="margin-top: 23px; margin-left: 15px;">
+                                     <input type="checkbox" ng-model="checked.allCamp" ng-change="onAllCampCheckbox()">
+                                     <span class="isAllowSlotFull">All</span>
+                                 </label>
+                                 <label class="custom-checkbox" style="margin-top: 23px; margin-left: 15px;">
+                                     <input type="checkbox" ng-model="checked.normalCamp" ng-change="onNormalCampCheckbox()">
+                                     <span class="isAllowSlotFull">Normal</span>
+                                 </label>
+                                 <label class="custom-checkbox" style="margin-top: 23px; margin-left: 15px;">
+                                     <input type="checkbox" ng-model="checked.promoCamp" ng-change="onPromoCampCheckbox()">
+                                     <span class="isAllowSlotFull">Promotion</span>
+                                 </label>
+                             </div>
+                         </div>-->
+                        <div class="table-responsive" style="margin-top: 30px!important;">
+                            <table class="table table-responsive" st-table="campaignListData"
+                                   st-safe-src="campaignListMasterData">
+                                <thead>
+                                <tr class="sortable ">
+                                    <th class="table-id" st-sort="id"><b>ID</b></th>
+                                    <th st-sort="name"><b>NAME</b></th>
+                                    <th><b>TYPE</b></th>
+                                    <th><b><i class="fa fa-share-alt fa-md"></i> LINK</b></th>
+                                    <th><b>STATUS</b></th>
+                                    <th><b>ACTION</b></th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th><input st-search="name" placeholder="Search Campaign"
+                                               class="input-sm form-control search-input"
+                                               type="search"/></th>
 
-                            <th></th>
-                            <th></th>
-                            <th><select st-search="status" st-input-event="change" st-delay="0" ng-model="status"
-                                        class="input-sm form-control">
-                                <option value="">
-                                    All
-                                </option>
-                                <option value="I">
-                                    InActive
-                                </option>
-                                <option value="A">
-                                    Active
-                                </option>
-                            </select></th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="item in campaignListData"
-                            ng-class="{'promo-campaign':item.isPromoCampaign==1,'data-capture-campaign':item.isPromoCampaign==1&&item.onlyDataCapture==1}">
-                            <td>{{item.id}}</td>
-                            <td class="multiline-cell ng-binding" text="item.name">
-                                <div>{{item.name}}</div>
-                                <!--<div class="sub"><span>{{item.description}}</span></div>-->
-                            </td>
-                            <td class="multiline-cell" text="item.type" class="ng-binding">
-                                <div>{{item.type}}</div>
-                                <div class="sub">{{item.subType}}</div>
-                            </td>
-                            <td>
-                                <button class="btn btn-link btn-xs" ng-if="item.status=='A'"
-                                        ng-click="generateLinkModal(item)" data-toggle="tooltip"
-                                        title="Get Campaign URL">Link <i
-                                        class="fa fa-share-alt fa-md"></i>
-                                </button>
-                            </td>
-                            <td><span>{{item.status | statusFullForm}}</span>
-                            </td>
-                            <td>
-                                <button  class="btn btn-primary btn-xs btn-raised" data-toggle="modal"
-                                        ng-click="goToEditPage(item)" data-toggle="tooltip"
-                                        title="Edit Campaign Details">Edit <i
-                                        class="fa fa-pencil fa-md"></i>
-                                </button>
-                                <a ng-if="item.status=='A'" href="{{domain}}?cid={{item.linkHashId}}" target="_blank" class="btn btn-warning btn-xs btn-raised" data-toggle="modal"
-                                   data-toggle="tooltip" title="Preview Final Template">Preview <i class="fa fa-eye fa-md"></i>
-                                </a>
-                                <button class="btn btn-danger btn-xs btn-raised"
-                                        ng-if="item.type==='SURVEY' || item.type==='NORMAL'"
-                                        data-toggle="modal" data-toggle="tooltip"
-                                        title="View Registered Customer"
-                                        ng-click="goToCustomerListPage(item)">Export <i class="fa fa-file fa-md"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="7" class="text-center" ng-hide="campaignDataLoaded">
-                                <i>Loading.. please wait..</i>
-                            </td>
-                            <td colspan="12" class="text-center" ng-if="campaignListData.length==0 && campaignDataLoaded">
-                                <label>No data available</label>
-                            </td>
-                        </tr>
-                        </tbody>
-                        <tfoot>
-                        <tr>
-                            <td colspan="7" class="text-center">
-                                <div st-pagination="" st-items-by-page="campaignPageSize" st-displayed-pages="10"></div>
-                            </td>
-                        </tr>
-                        </tfoot>
-                    </table>
-                </div>
-                <div ng-hide="true">
-                    <table id="campaignTableToExport" st-table="campaignListMasterData" class="table">
-                        <thead>
-                        <tr style="background-color:#458b74;color:#ffffff">
-                            <th class="table-id" st-sort="id"><b>ID</b></th>
-                            <th><b>NAME</b></th>
-                            <th><b>DESCRIPTION</b></th>
-                            <th><b>NO OF PERSON</b></th>
-                            <th><b>CONFIRM EMAIL</b></th>
-                            <th><b>EMAIL SUBJECT</b></th>
-                            <th><b>CONFIRM SMS</b></th>
-                            <th><b>CAMPAIGN OVER TEXT</b></th>
-                            <th><b>NOTIFY EMAIL</b></th>
-                            <th><b>SLOTS FULL TEXT</b></th>
-                            <th><b>IS ALLOWED ON SLOT FULL?</b></th>
-                            <th><b>IS PUBLISHED?</b></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="item in campaignListMasterData">
-                            <td>{{item.id}}</td>
-                            <td>{{item.name}}</td>
-                            <td>{{item.desc}}</td>
-                            <td>{{item.noOfPerson}}</td>
-                            <td>{{item.confirmEmail}}</td>
-                            <td>{{item.emailSubject}}</td>
-                            <td>{{item.confirmSms}}</td>
-                            <td>{{item.campaignOverText}}</td>
-                            <td>{{item.notifyEmail}}</td>
-                            <td>{{item.slotFullText}}</td>
-                            <td>{{item.isAllowOnFull}}</td>
-                            <td>{{item.isPublished}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                                    <th></th>
+                                    <th></th>
+                                    <th><select st-search="status" st-input-event="change" st-delay="0"
+                                                ng-model="status"
+                                                class="input-sm form-control">
+                                        <option value="">
+                                            All
+                                        </option>
+                                        <option value="I">
+                                            InActive
+                                        </option>
+                                        <option value="A">
+                                            Active
+                                        </option>
+                                    </select></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in campaignListData | filter:{ type: 'NORMAL' }"
+                                    ng-class="{'promo-campaign':item.isPromoCampaign==1,'data-capture-campaign':item.isPromoCampaign==1&&item.onlyDataCapture==1}">
+                                    <td>{{item.id}}</td>
+                                    <td class="multiline-cell ng-binding" text="item.name">
+                                        <div>{{item.name}}</div>
+                                        <!--<div class="sub"><span>{{item.description}}</span></div>-->
+                                    </td>
+                                    <td class="multiline-cell" text="item.type" class="ng-binding">
+                                        <div>{{item.type}}</div>
+                                        <div class="sub">{{item.subType}}</div>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-link btn-xs" ng-if="item.status=='A'"
+                                                ng-click="generateLinkModal(item)" data-toggle="tooltip"
+                                                title="Get Campaign URL">Link <i
+                                                class="fa fa-share-alt fa-md"></i>
+                                        </button>
+                                    </td>
+                                    <td><span>{{item.status | statusFullForm}}</span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary btn-xs btn-raised" data-toggle="modal"
+                                                ng-click="goToEditPage(item)" data-toggle="tooltip"
+                                                title="Edit Campaign Details">Edit <i
+                                                class="fa fa-pencil fa-md"></i>
+                                        </button>
+                                        <a ng-if="item.status=='A'" href="{{domain}}?cid={{item.linkHashId}}"
+                                           target="_blank" class="btn btn-warning btn-xs btn-raised" data-toggle="modal"
+                                           data-toggle="tooltip" title="Preview Final Template">Preview <i
+                                                class="fa fa-eye fa-md"></i>
+                                        </a>
+                                        <button class="btn btn-danger btn-xs btn-raised"
+                                                ng-if="item.type==='SURVEY' || item.type==='NORMAL'"
+                                                data-toggle="modal" data-toggle="tooltip"
+                                                title="View Registered Customer"
+                                                ng-click="goToCustomerListPage(item)">Export <i
+                                                class="fa fa-file fa-md"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="7" class="text-center" ng-hide="campaignDataLoaded">
+                                        <i>Loading.. please wait..</i>
+                                    </td>
+                                    <td colspan="12" class="text-center"
+                                        ng-if="campaignListData.length==0 && campaignDataLoaded">
+                                        <label>No data available</label>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="7" class="text-center">
+                                        <div st-pagination="" st-items-by-page="campaignPageSize"
+                                             st-displayed-pages="10"></div>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </uib-tab>
+                <uib-tab index="0" heading="Survey">
+                    <div class="panel-body">
+                        <!-- <div>
+                             <div class="pull-right" style="margin-top: -15px;">
+                                 <label class="custom-checkbox" style="margin-top: 23px; margin-left: 15px;">
+                                     <input type="checkbox" ng-model="checked.allCamp" ng-change="onAllCampCheckbox()">
+                                     <span class="isAllowSlotFull">All</span>
+                                 </label>
+                                 <label class="custom-checkbox" style="margin-top: 23px; margin-left: 15px;">
+                                     <input type="checkbox" ng-model="checked.normalCamp" ng-change="onNormalCampCheckbox()">
+                                     <span class="isAllowSlotFull">Normal</span>
+                                 </label>
+                                 <label class="custom-checkbox" style="margin-top: 23px; margin-left: 15px;">
+                                     <input type="checkbox" ng-model="checked.promoCamp" ng-change="onPromoCampCheckbox()">
+                                     <span class="isAllowSlotFull">Promotion</span>
+                                 </label>
+                             </div>
+                         </div>-->
+                        <div class="table-responsive" style="margin-top: 30px!important;">
+                            <table class="table table-responsive" st-table="campaignListData"
+                                   st-safe-src="campaignListMasterData">
+                                <thead>
+                                <tr class="sortable ">
+                                    <th class="table-id" st-sort="id"><b>ID</b></th>
+                                    <th st-sort="name"><b>NAME</b></th>
+                                    <th><b>TYPE</b></th>
+                                    <th><b><i class="fa fa-share-alt fa-md"></i> LINK</b></th>
+                                    <th><b>STATUS</b></th>
+                                    <th><b>ACTION</b></th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th><input st-search="name" placeholder="Search Campaign"
+                                               class="input-sm form-control search-input"
+                                               type="search"/></th>
+
+                                    <th></th>
+                                    <th></th>
+                                    <th><select st-search="status" st-input-event="change" st-delay="0"
+                                                ng-model="status"
+                                                class="input-sm form-control">
+                                        <option value="">
+                                            All
+                                        </option>
+                                        <option value="I">
+                                            InActive
+                                        </option>
+                                        <option value="A">
+                                            Active
+                                        </option>
+                                    </select></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in campaignListData| filter:{ type: 'SURVEY' }"
+                                    ng-class="{'promo-campaign':item.isPromoCampaign==1,'data-capture-campaign':item.isPromoCampaign==1&&item.onlyDataCapture==1}">
+                                    <td>{{item.id}}</td>
+                                    <td class="multiline-cell ng-binding" text="item.name">
+                                        <div>{{item.name}}</div>
+                                        <!--<div class="sub"><span>{{item.description}}</span></div>-->
+                                    </td>
+                                    <td class="multiline-cell" text="item.type" class="ng-binding">
+                                        <div>{{item.type}}</div>
+                                        <div class="sub">{{item.subType}}</div>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-link btn-xs" ng-if="item.status=='A'"
+                                                ng-click="generateLinkModal(item)" data-toggle="tooltip"
+                                                title="Get Campaign URL">Link <i
+                                                class="fa fa-share-alt fa-md"></i>
+                                        </button>
+                                    </td>
+                                    <td><span>{{item.status | statusFullForm}}</span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary btn-xs btn-raised" data-toggle="modal"
+                                                ng-click="goToEditPage(item)" data-toggle="tooltip"
+                                                title="Edit Campaign Details">Edit <i
+                                                class="fa fa-pencil fa-md"></i>
+                                        </button>
+                                        <a ng-if="item.status=='A'" href="{{domain}}?cid={{item.linkHashId}}"
+                                           target="_blank" class="btn btn-warning btn-xs btn-raised" data-toggle="modal"
+                                           data-toggle="tooltip" title="Preview Final Template">Preview <i
+                                                class="fa fa-eye fa-md"></i>
+                                        </a>
+                                        <button class="btn btn-danger btn-xs btn-raised"
+                                                ng-if="item.type==='SURVEY' || item.type==='NORMAL'"
+                                                data-toggle="modal" data-toggle="tooltip"
+                                                title="View Registered Customer"
+                                                ng-click="goToCustomerListPage(item)">Export <i
+                                                class="fa fa-file fa-md"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="7" class="text-center" ng-hide="campaignDataLoaded">
+                                        <i>Loading.. please wait..</i>
+                                    </td>
+                                    <td colspan="12" class="text-center"
+                                        ng-if="campaignListData.length==0 && campaignDataLoaded">
+                                        <label>No data available</label>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="7" class="text-center">
+                                        <div st-pagination="" st-items-by-page="campaignPageSize"
+                                             st-displayed-pages="10"></div>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
         </div>
     </div>
 </div>
