@@ -34,6 +34,13 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider',
                 title: 'Profile',
                 subTitle: 'Profile'
             })
+            .state('helperClass', {
+                url: '/helperClass',
+                templateUrl: 'templates/helperClass.html',
+                controller: 'helperCtrl',
+                title: 'Helper',
+                subTitle: 'Helper'
+            })
             .state('campaign', {
                 url: '/campaign',
                 templateUrl: 'templates/campaign/campaigns.html',
