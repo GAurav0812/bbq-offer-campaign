@@ -26,6 +26,7 @@
     "angular-bootstrap": "~1.0.3",
     "angular-ui-router": "^0.2.15",
     "bootstrap": "~3.3.6",
+    "animate.css": "~3.4.0",
     "font-awesome": "~4.5.0",
     "angular-wizard": "^1.1.1",
     "angular-smart-table": "^2.1.11",
