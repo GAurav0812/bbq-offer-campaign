@@ -58,10 +58,11 @@
                             <!--<th><b>COUPON</b></th>-->
                             <th st-sort="mobile"><b><i class="fa fa-mobile-phone" aria-hidden="true"></i> MOBILE</b></th>
                             <th><b>DATE</b></th>
-                            <th ng-if="campaignInfo.type==='SURVEY'" colspan="{{tableHeader.length}}"><b>SURVEY DETAILS</b></th>
                             <th><b>BOOKING ID</b></th>
                             <th><b>BOOKING TYPE</b></th>
                             <th><b>REJECT REASON</b></th>
+                            <th ng-if="campaignInfo.type==='SURVEY'" colspan="{{tableHeader.length}}"><b>SURVEY DETAILS</b></th>
+
                         </tr>
                         <tr>
                             <th></th>
@@ -69,6 +70,9 @@
                             <th><input st-search="mobile" placeholder="Search Mobile"
                                        class="input-sm form-control search-input"
                                        type="search"/></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
                             <th></th>
                             <th ng-if="campaignInfo.type==='SURVEY'" ng-repeat="ques in tableHeader">{{ques.title}}</th>
                         </tr>
@@ -84,12 +88,12 @@
                             </td>
                             <td><div>{{item.surveyDate|emptyInputFilter}}</div>
                             </td>
-                            <td ng-if="campaignInfo.type==='SURVEY'" ng-repeat="ans in item.surveyDetails">
-                                <div class="cut-text">{{ans.answers|arrayToStringFilter}}</div>
-                            </td>
                             <td><strong><b>{{item.bookingId|emptyInputFilter}}</b></strong></td>
                             <td><strong><b>{{item.bookingType|emptyInputFilter}}</b></strong></td>
                             <td><strong><b>{{item.rejectReason|emptyInputFilter}}</b></strong></td>
+                            <td ng-if="campaignInfo.type==='SURVEY'" ng-repeat="ans in item.surveyDetails">
+                                <div class="cut-text">{{ans.answers|arrayToStringFilter}}</div>
+                            </td>
 
                         </tr>
                         <tr ng-if="campaignInfo.type==='SURVEY'">
@@ -119,38 +123,43 @@
                         <thead>
                         <tr style="background-color:#458b74;color:#ffffff">
                             <th><b>ID</b></th>
-                            <th><b>COUPON</b></th>
+                            <!--<th><b>COUPON</b></th>-->
                             <th><b>MOBILE</b></th>
                             <th><b>DATE</b></th>
+                            <th><b>BOOKING ID</b></th>
+                            <th><b>BOOKING TYPE</b></th>
+                            <th><b>REJECT REASON</b></th>
                             <th ng-if="campaignInfo.type==='SURVEY'" colspan="{{tableHeader.length}}"><b>SURVEY DETAILS</b></th>
+
                         </tr>
                         <tr>
+                            <th></th>
+                            <!--<th></th>-->
+                            <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
                             <th ng-if="campaignInfo.type==='SURVEY'" ng-repeat="ques in tableHeader">{{ques.title}}</th>
-                            <th>12</th>
-                            <th>11</th>
-                            <th>11</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="item in customerMasterData">
                             <td>{{$index+1}}</td>
-                            <td>
+                            <!--<td>
                                 <strong><b>{{item.coupon|emptyInputFilter}}</b></strong>
-                            </td>
+                            </td>-->
                             <td>
                                 <strong><b>{{item.mobileNo|emptyInputFilter}}</b></strong>
                             </td>
                             <td><div>{{item.surveyDate|emptyInputFilter}}</div></td>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td ng-if="campaignInfo.type==='SURVEY'" ng-repeat="ans in item.surveyDetails">
                                 <span>{{ans.answers|arrayToStringFilter}}</span>
                             </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
                         </tr>
                         </tbody>
                     </table>
