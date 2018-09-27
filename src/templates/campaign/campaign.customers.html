@@ -55,7 +55,7 @@
                         <thead>
                         <tr class="sortable ">
                             <th class="table-id" st-sort="id"><b>ID</b></th>
-                            <th><b>COUPON</b></th>
+                            <!--<th><b>COUPON</b></th>-->
                             <th st-sort="mobile"><b><i class="fa fa-mobile-phone" aria-hidden="true"></i> MOBILE</b></th>
                             <th><b>DATE</b></th>
                             <th ng-if="campaignInfo.type==='SURVEY'" colspan="{{tableHeader.length}}"><b>SURVEY DETAILS</b></th>
@@ -65,7 +65,7 @@
                         </tr>
                         <tr>
                             <th></th>
-                            <th></th>
+                            <!--<th></th>-->
                             <th><input st-search="mobile" placeholder="Search Mobile"
                                        class="input-sm form-control search-input"
                                        type="search"/></th>
@@ -76,9 +76,9 @@
                         <tbody>
                         <tr ng-repeat="item in customerData">
                             <td>{{$index+1}}</td>
-                            <td>
+                            <!--<td>
                                 <strong><b>{{item.coupon|emptyInputFilter}}</b></strong>
-                            </td>
+                            </td>-->
                             <td>
                                 <strong><b>{{item.mobileNo|emptyInputFilter}}</b></strong>
                             </td>
