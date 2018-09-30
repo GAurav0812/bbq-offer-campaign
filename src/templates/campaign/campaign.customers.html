@@ -62,7 +62,6 @@
                             <th><b>BOOKING TYPE</b></th>
                             <th><b>REJECT REASON</b></th>
                             <th ng-if="campaignInfo.type==='SURVEY'" colspan="{{tableHeader.length}}"><b>SURVEY DETAILS</b></th>
-
                         </tr>
                         <tr>
                             <th></th>
@@ -83,27 +82,23 @@
                             <!--<td>
                                 <strong><b>{{item.coupon|emptyInputFilter}}</b></strong>
                             </td>-->
-                            <td>
-                                <strong><b>{{item.mobileNo|emptyInputFilter}}</b></strong>
-                            </td>
-                            <td><div>{{item.surveyDate|emptyInputFilter}}</div>
-                            </td>
+                            <td><strong><b>{{item.mobileNo|emptyInputFilter}}</b></strong></td>
+                            <td><div>{{item.surveyDate|emptyInputFilter}}</div></td>
                             <td><strong><b>{{item.bookingId|emptyInputFilter}}</b></strong></td>
                             <td><strong><b>{{item.bookingType|emptyInputFilter}}</b></strong></td>
                             <td><strong><b>{{item.rejectReason|emptyInputFilter}}</b></strong></td>
                             <td ng-if="campaignInfo.type==='SURVEY'" ng-repeat="ans in item.surveyDetails">
                                 <div class="cut-text">{{ans.answers|arrayToStringFilter}}</div>
                             </td>
-
                         </tr>
                         <tr ng-if="campaignInfo.type==='SURVEY'">
-                            <td colspan="{{7 + tableHeader.length}}" class="text-center"
+                            <td colspan="{{6 + tableHeader.length}}" class="text-center"
                                 ng-if="customerData.length==0 && customerData">
                                 <label>No data available</label>
                             </td>
                         </tr>
                         <tr ng-if="campaignInfo.type==='NORMAL'">
-                            <td colspan="7" class="text-center"
+                            <td colspan="6" class="text-center"
                                 ng-if="customerData.length==0 && customerData">
                                 <label>No data available</label>
                             </td>
@@ -111,7 +106,7 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <td colspan="{{7 + tableHeader.length}}" class="text-center">
+                            <td colspan="{{6 + tableHeader.length}}" class="text-center">
                                 <div st-pagination="" st-items-by-page="campaignPageSize" st-displayed-pages="10"></div>
                             </td>
                         </tr>

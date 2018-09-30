@@ -8,7 +8,8 @@
     <div class="panel profile-panel animated fadeIn">
         <div class="panel-body">
             <div ng-if="campaignStartPage">
-                <form name="newCampaign.start" ng-submit="startCreateCampaign(newCampaign.start.$valid)" class="campaign-type-form">
+                <form name="newCampaign.start" ng-submit="startCreateCampaign(newCampaign.start.$valid)"
+                      class="campaign-type-form">
                     <h2 class="text-center" style="margin-bottom: 15px">Select Campaign Type</h2>
                     <div class="inputGroup" ng-repeat="item in CampaignTypeList">
                         <input id="radio{{$index}}" name="radio" value="{{item.id}}" ng-model="selected.type"
@@ -65,7 +66,7 @@
                                                 class="note-text"> * </span></label>
                                         <p class="input-group">
                                             <input type="text" class="form-control readOnly-input"
-                                                   uib-datepicker-popup="{{format}}"
+                                                   uib-datepicker-popup="{{format}}" arrowkeys="false"
                                                    ng-model="newCampaign.info.startDate" is-open="popup1.opened"
                                                    placeholder="Start Date" id="startDate" min-date="curDate"
                                                    ng-readonly="true"
@@ -87,7 +88,7 @@
                                                 class="note-text"> * </span></label>
                                         <p class="input-group">
                                             <input type="text" class="form-control readOnly-input"
-                                                   uib-datepicker-popup="{{format}}"
+                                                   uib-datepicker-popup="{{format}}" arrowkeys="false"
                                                    ng-model="newCampaign.info.endDate" is-open="popup2.opened"
                                                    placeholder="End Date" id="endDate" min-date="endMinDate"
                                                    ng-readonly="true"
@@ -162,11 +163,11 @@
                                                 <span ng-bind="item.cityName"></span>
                                             </ui-select-choices>
                                         </ui-select>
-                                      <!--  <am-multiselect ng-if="!allCity.checked" id="cityIds" ng-change="getBranchByCityId()"
-                                                     name="cityIds" ng-required="!allCity.checked" class="" ng-model="selected.city" options="p as p.cityName for p in cityList"
-                                                     header="Select City" selected-header="city selected" multiple="true" complex-models="true" required
-                                                     enable-filter="true" filter-placeholder="Select City">
-                                        </am-multiselect>-->
+                                        <!--  <am-multiselect ng-if="!allCity.checked" id="cityIds" ng-change="getBranchByCityId()"
+                                                       name="cityIds" ng-required="!allCity.checked" class="" ng-model="selected.city" options="p as p.cityName for p in cityList"
+                                                       header="Select City" selected-header="city selected" multiple="true" complex-models="true" required
+                                                       enable-filter="true" filter-placeholder="Select City">
+                                          </am-multiselect>-->
                                         <span class="help-block error-block basic-block" style="color: #a94442;"
                                               ng-if="newCampaign.form1.cityIds.$invalid && newCampaign.form1.cityIds.$dirty">City is required field</span>
                                     </div>
@@ -192,11 +193,11 @@
                                                 <span ng-bind="item.branchName"></span>
                                             </ui-select-choices>
                                         </ui-select>
-                                      <!--  <am-multiselect ng-disabled="!selected.city"  ng-if="!allBranch.checked" id="branchIds"
-                                                        name="cityIds" ng-required="!allBranch.checked" class="" ng-model="selected.branch" options="p as p.branchName for p in branchList"
-                                                        header="Select Branch" selected-header="branch selected" multiple="true" complex-models="true" required
-                                                        enable-filter="true" filter-placeholder="Select Branch">
-                                        </am-multiselect>-->
+                                        <!--  <am-multiselect ng-disabled="!selected.city"  ng-if="!allBranch.checked" id="branchIds"
+                                                          name="cityIds" ng-required="!allBranch.checked" class="" ng-model="selected.branch" options="p as p.branchName for p in branchList"
+                                                          header="Select Branch" selected-header="branch selected" multiple="true" complex-models="true" required
+                                                          enable-filter="true" filter-placeholder="Select Branch">
+                                          </am-multiselect>-->
                                         <span class="help-block error-block basic-block" style="color: #a94442;"
                                               ng-if="newCampaign.form1.branchIds.$invalid && newCampaign.form1.branchIds.$dirty">Branch is required field</span>
                                     </div>
@@ -244,17 +245,23 @@
                         <!--  ng-disabled="newCampaign.form1.$invalid"-->
                     </wz-step>
                     <wz-step wz-title="Questionnaire" ng-if="selected.type!=='NORMAL'">
-                        <h3>Add Survey Questionnaire</h3>{{selected.type}}
+                        <h3>Add Survey Questionnaire</h3>
                         <p>You can add new Question or use from previous campaign!</p>
-                        <div class="row">
-                            <div class="form-group col-md-12 col-xs-12" style="padding-right: 0;margin-bottom: 5px;">
-                                <button class="btn btn-sm btn-success pull-right" ng-click="addNewColumn()"><i
-                                        class="fa fa-plus"></i> Add New
-                                </button>
+                        <form name="newCampaign.form2" class="animated fadeIn" novalidate>
+                            <div>
+                                <div class="form-group has-feedback"
+                                     ng-class="{'has-error': newCampaign.form2.numberOfQuestion.$invalid && (newCampaign.form2.numberOfQuestion.$dirty || newCampaign.form2.$submitted)}">
+                                    <label for="numberOfQuestion">Questions/Page <span
+                                            class="note-text">*</span></label>
+                                    <input type="text" class="form-control" id="numberOfQuestion"
+                                           ui-validate="'isNumeric($value)'"
+                                           name="numberOfQuestion" placeholder="Questions Per Page" maxlength="1"
+                                           ng-model="newCampaign.info.questionTemplate.numberOfQuestion" required>
+                                    <span class="help-block error-block basic-block"
+                                          ng-if="newCampaign.form2.numberOfQuestion.$invalid && newCampaign.form2.numberOfQuestion.$dirty">Required</span>
+                                </div>
                             </div>
-                        </div>
-                        <div>
-                            <form name="newCampaign.form2" class="animated fadeIn" novalidate>
+                            <div>
                                 <fieldset ng-repeat="item in questionFormat" class="ques-fieldset">
                                     <div class="form-group col-md-3 col-xs-6"
                                          ng-class="{'has-error': newCampaign.form2.questionType{{$index+1}}.$invalid && (newCampaign.form2.questionType{{$index+1}}.$dirty || newCampaign.form2.$submitted)}">
@@ -292,7 +299,8 @@
                                                        ng-model="ans.description"
                                                        placeholder="Answer Text*" required>
                                             </div>
-                                            <div ng-if="item.type!=='FILLTEXT'&& item.type!=='OPENTEXT'" class="form-group col-md-1 col-xs-1">
+                                            <div ng-if="item.type!=='FILLTEXT'&& item.type!=='OPENTEXT'"
+                                                 class="form-group col-md-1 col-xs-1">
                                                 <button type="button" class="btn btn-primary pull-left"
                                                         ng-click="addQuestion(item,$index)"
                                                         ng-show="$last">
@@ -311,35 +319,15 @@
                                     <button ng-show="$index != 0" class="btn btn-sm btn-default remove-btn"
                                             ng-click="removeColumn($index)"><i class="fa fa-times"></i></button>
                                 </fieldset>
-                            </form>
+                            </div>
+                        </form>
+                        <div class="row">
+                            <div class="form-group col-md-12 col-xs-12" style="padding-right: 0;margin-bottom: 5px;">
+                                <button class="btn btn-sm btn-success pull-right" ng-click="addNewColumn()"><i
+                                        class="fa fa-plus"></i> Add New
+                                </button>
+                            </div>
                         </div>
-
-                        <!-- <div ng-repeat="item in newCampaign.info.questionTemplate.questions track by $index">
-                             <div class="row">
-                                 <div class="form-group col-md-8 col-xs-6"
-                                      ng-class="{'has-error': newCampaign.form2.description{{$index+1}}.$invalid && (newCampaign.form2.descriptionv{{$index+1}}.$dirty || newCampaign.form2.$submitted)}">
-                                     <input type="text" name="description{{$index+1}}" id="description"
-                                            class="form-control" ui-validate="'isNumeric($value)'"
-                                            ng-model="newCampaign.info.questionTemplate.questions[$index].description"
-                                            placeholder="PAX*" required>
-                                 </div>
-
-                                 <div class="form-group col-md-2 col-xs-6">
-                                     <button type="button" class="btn btn-primary pull-left"
-                                             ng-click="addQuestion($index)"
-                                             ng-show="$last">
-                                         <i class="fa fa-plus"></i> Add
-                                     </button>
-                                 </div>
-                                 <div class="form-group col-md-1 col-xs-6">
-                                     <button type="button" class="btn btn-danger"
-                                             ng-click="deleteQuestion($event,$index)" value=""
-                                             ng-show="$index != 0">
-                                         <i class="fa fa-times"></i>
-                                     </button>
-                                 </div>
-                             </div>
-                         </div>-->
                         <input class="btn btn-sm btn-default" type="button" wz-previous="logStep()" value="Previous"/>
                         <input class="btn btn-sm btn-primary" ng-disabled="newCampaign.form2.$invalid" type="submit"
                                wz-next

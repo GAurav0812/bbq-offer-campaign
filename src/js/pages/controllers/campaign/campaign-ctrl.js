@@ -42,7 +42,7 @@ function CampaignCtrl($scope, $http, $filter, $q, $rootScope, $timeout, Validati
         getSubTypeList();
         $scope.campaignStartPage = !$scope.campaignStartPage;
     };
-    $scope.backToSelectionForm=function(){
+    $scope.backToSelectionForm = function () {
         $scope.campaignStartPage = !$scope.campaignStartPage;
     };
     $scope.CampaignTypeList = [
@@ -54,7 +54,7 @@ function CampaignCtrl($scope, $http, $filter, $q, $rootScope, $timeout, Validati
     function getSubTypeList() {
         var postMethod = '';
         postMethod = $scope.selected.type === 'NORMAL' ? 'normal' : 'survey';
-        var subTypeList = new HttpService("campaign/list/subType/"+postMethod);
+        var subTypeList = new HttpService("campaign/list/subType/" + postMethod);
         subTypeList.get("").then(function (data) {
             $scope.CampaignSubTypeList = data.subTypes;
         }, function (e) {
@@ -144,7 +144,8 @@ function CampaignCtrl($scope, $http, $filter, $q, $rootScope, $timeout, Validati
                     type: ""
                 }
             ],
-            title: new Date().getTime()
+            title: new Date().getTime(),
+            numberOfQuestion: undefined
         },
         smsTemplate: "Your celebration starts when you get to share this exclusive code %cpn%, during your visit to Barbeque Nation.",
         startDate: "",
@@ -196,7 +197,7 @@ function CampaignCtrl($scope, $http, $filter, $q, $rootScope, $timeout, Validati
 
     $scope.open1 = function () {
         $scope.popup1.opened = true;
-        $scope.newCampaign.info.endDate='';
+        $scope.newCampaign.info.endDate = '';
     };
     $scope.popup1 = {
         opened: false
@@ -411,6 +412,7 @@ function CampaignCtrl($scope, $http, $filter, $q, $rootScope, $timeout, Validati
                 $scope.newCampaign.info.questionTemplate.questions = $scope.questionFormat;
                 break;
         }
+        $scope.newCampaign.info.questionTemplate.numberOfQuestion = parseInt($scope.newCampaign.info.questionTemplate.numberOfQuestion);
         var createCampaign = new HttpService("campaign/create/" + postMethod);
         createCampaign.post('', Campaign.createObject($scope.newCampaign.info, city, branch)).then(function (response) {
             toastr.success("Campaign created successfully!", "Success");

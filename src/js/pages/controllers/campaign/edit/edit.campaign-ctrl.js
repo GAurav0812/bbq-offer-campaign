@@ -28,6 +28,7 @@ function EditCampaignCtrl($stateParams, $http, $rootScope, $filter, $scope, $q, 
                 }
             ],
             title: "DEMO",
+            numberOfQuestion:undefined,
             templateId: null
         },
         smsTemplate: "",
@@ -345,6 +346,7 @@ function EditCampaignCtrl($stateParams, $http, $rootScope, $filter, $scope, $q, 
                 $scope.editCampaign.info.questionTemplate.questions = $scope.questionFormat;
                 break;
         }
+        $scope.editCampaign.info.questionTemplate.numberOfQuestion = parseInt($scope.editCampaign.info.questionTemplate.numberOfQuestion);
         var createCampaign = new HttpService("campaign/update/normal");
         createCampaign.post('', Campaign.updateObject($scope.editCampaign.info, city, branch)).then(function (response) {
             toastr.success("Campaign updated successfully!", "Success");
