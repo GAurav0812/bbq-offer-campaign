@@ -84,8 +84,8 @@
                             </td>-->
                             <td><strong><b>{{item.mobileNo|emptyInputFilter}}</b></strong></td>
                             <td><div>{{item.surveyDate|emptyInputFilter}}</div></td>
-                            <td><strong><b>{{item.bookingId|emptyInputFilter}}</b></strong></td>
-                            <td><strong><b>{{item.bookingType|emptyInputFilter}}</b></strong></td>
+                            <td><strong><b>{{item.bookId|emptyInputFilter}}</b></strong></td>
+                            <td><strong><b>{{item.bookType|emptyInputFilter}}</b></strong></td>
                             <td><strong><b>{{item.rejectReason|emptyInputFilter}}</b></strong></td>
                             <td ng-if="campaignInfo.type==='SURVEY'" ng-repeat="ans in item.surveyDetails">
                                 <div class="cut-text">{{ans.answers|arrayToStringFilter}}</div>
