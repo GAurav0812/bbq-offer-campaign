@@ -38,8 +38,8 @@
                              </div>
                          </div>-->
                         <div class="table-responsive" style="margin-top: 30px!important;">
-                            <table class="table table-responsive" st-table="campaignListData"
-                                   st-safe-src="campaignListMasterData">
+                            <table class="table table-responsive" st-table="normalCampaignListData"
+                                   st-safe-src="normalCampaignListMasterData">
                                 <thead>
                                 <tr class="sortable ">
                                     <th class="table-id" st-sort="id"><b>ID</b></th>
@@ -74,8 +74,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr ng-repeat="item in campaignListData | filter:{ type: 'NORMAL' }"
-                                    ng-class="{'promo-campaign':item.isPromoCampaign==1,'data-capture-campaign':item.isPromoCampaign==1&&item.onlyDataCapture==1}">
+                                <tr ng-repeat="item in normalCampaignListData | filter:{ type: 'NORMAL' }">
                                     <td>{{item.id}}</td>
                                     <td class="multiline-cell ng-binding" text="item.name">
                                         <div>{{item.name}}</div>
@@ -91,6 +90,7 @@
                                                 title="Get Campaign URL">Link <i
                                                 class="fa fa-share-alt fa-md"></i>
                                         </button>
+                                        <small class="dim-grey-text" ng-if="item.status=='I'">-</small>
                                     </td>
                                     <td><span>{{item.status | statusFullForm}}</span>
                                     </td>
@@ -115,18 +115,18 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="7" class="text-center" ng-hide="campaignDataLoaded">
+                                    <td colspan="6" class="text-center" ng-hide="campaignDataLoaded">
                                         <i>Loading.. please wait..</i>
                                     </td>
-                                    <td colspan="12" class="text-center"
-                                        ng-if="campaignListData.length==0 && campaignDataLoaded">
+                                    <td colspan="6" class="text-center"
+                                        ng-if="normalCampaignListData.length==0 && campaignDataLoaded">
                                         <label>No data available</label>
                                     </td>
                                 </tr>
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <td colspan="7" class="text-center">
+                                    <td colspan="6" class="text-center">
                                         <div st-pagination="" st-items-by-page="campaignPageSize"
                                              st-displayed-pages="10"></div>
                                     </td>
@@ -155,8 +155,8 @@
                              </div>
                          </div>-->
                         <div class="table-responsive" style="margin-top: 30px!important;">
-                            <table class="table table-responsive" st-table="campaignListData"
-                                   st-safe-src="campaignListMasterData">
+                            <table class="table table-responsive" st-table="surveyCampaignListData"
+                                   st-safe-src="surveyCampaignListMasterData">
                                 <thead>
                                 <tr class="sortable ">
                                     <th class="table-id" st-sort="id"><b>ID</b></th>
@@ -191,8 +191,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr ng-repeat="item in campaignListData| filter:{ type: 'SURVEY' }"
-                                    ng-class="{'promo-campaign':item.isPromoCampaign==1,'data-capture-campaign':item.isPromoCampaign==1&&item.onlyDataCapture==1}">
+                                <tr ng-repeat="item in surveyCampaignListData">
                                     <td>{{item.id}}</td>
                                     <td class="multiline-cell ng-binding" text="item.name">
                                         <div>{{item.name}}</div>
@@ -208,6 +207,7 @@
                                                 title="Get Campaign URL">Link <i
                                                 class="fa fa-share-alt fa-md"></i>
                                         </button>
+                                        <small class="dim-grey-text" ng-if="item.status=='I'">-</small>
                                     </td>
                                     <td><span>{{item.status | statusFullForm}}</span>
                                     </td>
@@ -232,18 +232,18 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="7" class="text-center" ng-hide="campaignDataLoaded">
+                                    <td colspan="6" class="text-center" ng-hide="campaignDataLoaded">
                                         <i>Loading.. please wait..</i>
                                     </td>
-                                    <td colspan="12" class="text-center"
-                                        ng-if="campaignListData.length==0 && campaignDataLoaded">
+                                    <td colspan="6" class="text-center"
+                                        ng-if="surveyCampaignListData.length==0 && campaignDataLoaded">
                                         <label>No data available</label>
                                     </td>
                                 </tr>
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <td colspan="7" class="text-center">
+                                    <td colspan="6" class="text-center">
                                         <div st-pagination="" st-items-by-page="campaignPageSize"
                                              st-displayed-pages="10"></div>
                                     </td>

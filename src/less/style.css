@@ -259,6 +259,9 @@
     font-weight: 600;
     line-height: 36px;
 }
+.dim-grey-text{
+    color: #9b9797;
+}
 .btn-orange {
     color: #fff;
     background-color: #fa3c04;

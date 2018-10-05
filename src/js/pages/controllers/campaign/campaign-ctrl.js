@@ -11,7 +11,7 @@ function CampaignCtrl($scope, $http, $filter, $q, $rootScope, $timeout, Validati
     $scope.format = 'dd-MMMM-yyyy';
     $scope.curDate = new Date();
     $scope.altInputFormat = [];
-
+    $scope.campaignPageSize = 10;
     $scope.dateOptions = {
         formatYear: 'yyyy',
         startingDay: 1
@@ -23,9 +23,10 @@ function CampaignCtrl($scope, $http, $filter, $q, $rootScope, $timeout, Validati
         $scope.campaignDataLoaded = false;
         var campaignList = new HttpService("campaign/list");
         campaignList.get("").then(function (data) {
-            $scope.tempCampData = data.campaigns;
-            $scope.campaignListMasterData = $scope.tempCampData.slice().reverse();
-            $scope.campaignListData = [].concat($scope.campaignListMasterData);
+            $scope.normalCampaignListMasterData = $filter('filter')( data.campaigns, {type: "NORMAL"}).slice().reverse();
+            $scope.normalCampaignListData = [].concat($scope.normalCampaignListMasterData);
+            $scope.surveyCampaignListMasterData = $filter('filter')( data.campaigns, {type: "SURVEY"}).slice().reverse();
+            $scope.surveyCampaignListData = [].concat($scope.surveyCampaignListMasterData);
             $scope.campaignDataLoaded = true;
         }, function (data) {
             toastr.error('Failed!Unable to fetch Campaign List!', "Try Again");
