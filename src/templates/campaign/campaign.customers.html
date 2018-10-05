@@ -125,7 +125,6 @@
                             <th><b>BOOKING TYPE</b></th>
                             <th><b>REJECT REASON</b></th>
                             <th ng-if="campaignInfo.type==='SURVEY'" colspan="{{tableHeader.length}}"><b>SURVEY DETAILS</b></th>
-
                         </tr>
                         <tr>
                             <th></th>
@@ -144,16 +143,13 @@
                             <!--<td>
                                 <strong><b>{{item.coupon|emptyInputFilter}}</b></strong>
                             </td>-->
-                            <td>
-                                <strong><b>{{item.mobileNo|emptyInputFilter}}</b></strong>
-                            </td>
-                            <td><div>{{item.surveyDate|emptyInputFilter}}</div></td>
-
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td><strong><b>{{item.mobileNo|emptyInputFilter}}</b></strong></td>
+                            <td><strong><b>{{item.surveyDate|emptyInputFilter}}</b></strong></td>
+                            <td><strong><b>{{item.bookId|emptyInputFilter}}</b></strong></td>
+                            <td><strong><b>{{item.bookType|emptyInputFilter}}</b></strong></td>
+                            <td><strong><b>{{item.rejectReason|emptyInputFilter}}</b></strong></td>
                             <td ng-if="campaignInfo.type==='SURVEY'" ng-repeat="ans in item.surveyDetails">
-                                <span>{{ans.answers|arrayToStringFilter}}</span>
+                                <strong><b>{{ans.answers|arrayToStringFilter}}</b></strong>
                             </td>
                         </tr>
                         </tbody>

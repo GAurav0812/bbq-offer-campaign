@@ -344,9 +344,9 @@ function EditCampaignCtrl($stateParams, $http, $rootScope, $filter, $scope, $q, 
                 break;
             default:
                 $scope.editCampaign.info.questionTemplate.questions = $scope.questionFormat;
+                $scope.editCampaign.info.questionTemplate.numberOfQuestion = parseInt($scope.editCampaign.info.questionTemplate.numberOfQuestion);
                 break;
         }
-        $scope.editCampaign.info.questionTemplate.numberOfQuestion = parseInt($scope.editCampaign.info.questionTemplate.numberOfQuestion);
         var createCampaign = new HttpService("campaign/update/normal");
         createCampaign.post('', Campaign.updateObject($scope.editCampaign.info, city, branch)).then(function (response) {
             toastr.success("Campaign updated successfully!", "Success");

@@ -410,10 +410,10 @@ function CampaignCtrl($scope, $http, $filter, $q, $rootScope, $timeout, Validati
                 $scope.newCampaign.info.questionTemplate = null;
                 break;
             default:
+                $scope.newCampaign.info.questionTemplate.numberOfQuestion = parseInt($scope.newCampaign.info.questionTemplate.numberOfQuestion);
                 $scope.newCampaign.info.questionTemplate.questions = $scope.questionFormat;
                 break;
         }
-        $scope.newCampaign.info.questionTemplate.numberOfQuestion = parseInt($scope.newCampaign.info.questionTemplate.numberOfQuestion);
         var createCampaign = new HttpService("campaign/create/" + postMethod);
         createCampaign.post('', Campaign.createObject($scope.newCampaign.info, city, branch)).then(function (response) {
             toastr.success("Campaign created successfully!", "Success");
