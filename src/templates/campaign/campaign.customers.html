@@ -149,9 +149,9 @@
                             </td>
                             <td><div>{{item.surveyDate|emptyInputFilter}}</div></td>
 
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{{item.bookId|emptyInputFilter}}</td>
+                            <td>{{item.bookType|emptyInputFilter}}</td>
+                            <td>{{item.rejectReason|emptyInputFilter}}</td>
                             <td ng-if="campaignInfo.type==='SURVEY'" ng-repeat="ans in item.surveyDetails">
                                 <span>{{ans.answers|arrayToStringFilter}}</span>
                             </td>
