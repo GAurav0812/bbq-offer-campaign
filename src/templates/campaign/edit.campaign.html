@@ -320,94 +320,103 @@
                 </wz-step>
                 <wz-step wz-title="Configuration" ng-if="campaignInfo.type==='SURVEY' || campaignInfo.type==='NORMAL'">
                     <h3>Configuration</h3>
-                    <p>Please add voucher details!</p>
+                    <p>Please add intro and voucher details!</p>
                     <form name="editCampaign.form3" class="animated fadeIn" novalidate>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group has-feedback"
-                                     ng-class="{'has-error': editCampaign.form3.title.$invalid && (editCampaign.form3.title.$dirty || editCampaign.form3.$submitted)}">
-                                    <label for="headerTitle">Header Title <span class="note-text">*</span></label>
-                                    <input type="text" class="form-control" id="headerTitle"
-                                           name="title" placeholder="Header Title" maxlength="150"
-                                           ng-model="editCampaign.info.termsAndCondition.title" required>
-                                    <span class="help-block error-block basic-block"
-                                          ng-if="editCampaign.form3.title.$invalid && editCampaign.form3.title.$dirty">Required</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="description">Description <span
-                                            class="non-mandatory">(Optional)</span></label>
-                                    <input type="text" class="form-control" id="description" maxlength="300"
-                                           name="description" placeholder="Description"
-                                           ng-model="editCampaign.info.termsAndCondition.description">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="description">Short Message <span
-                                            class="non-mandatory">(Optional)</span></label>
-                                    <input type="text" class="form-control" id="shortMessage"
-                                           name="description" placeholder="Short Message" maxlength="600"
-                                           ng-model="editCampaign.info.termsAndCondition.customMessage">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
+
+
                             <div class="row">
-                                <div class="col-md-12" style="margin-bottom: -15px">
-                                    <label>Header Settings<span class="note-text"> * </span></label>
+                                <div class="col-md-6">
+                                    <div class="form-group has-feedback"
+                                        ng-class="{'has-error': editCampaign.form3.title.$invalid && (editCampaign.form3.title.$dirty || editCampaign.form3.$submitted)}">
+                                        <label for="headerTitle">Intro Title <span class="note-text">*</span></label>
+                                        <input type="text" class="form-control" id="headerTitle" name="title"
+                                            placeholder="Header Title" maxlength="150"
+                                            ng-model="editCampaign.info.termsAndCondition.title" required>
+                                        <span class="help-block error-block basic-block"
+                                            ng-if="editCampaign.form3.title.$invalid && editCampaign.form3.title.$dirty">Required</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="description">Description <span
+                                                class="non-mandatory">(Optional)</span></label>
+                                        <input type="text" class="form-control" id="description" maxlength="300"
+                                            name="description" placeholder="Description"
+                                            ng-model="editCampaign.info.termsAndCondition.description">
+                                    </div>
                                 </div>
                             </div>
-                            <div ng-repeat="item in editCampaign.info.termsAndCondition.offerDetails track by $index">
-                                <div class="row">
-                                    <div class="form-group col-md-2 col-xs-6"
-                                         ng-class="{'has-error': editCampaign.form3.paxNo{{$index+1}}.$invalid && (editCampaign.form3.paxNo{{$index+1}}.$dirty || editCampaign.form3.$submitted)}">
-                                        <input type="text" name="paxNo{{$index+1}}" id="paxNo"
-                                               class="form-control" ui-validate="'isInteger($value)'"
-                                               ng-model="editCampaign.info.termsAndCondition.offerDetails[$index].paxNo"
-                                               placeholder="PAX*" required>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="description">Short Message <span
+                                                class="non-mandatory">(Optional)</span></label>
+                                        <input type="text" class="form-control" id="shortMessage" name="description"
+                                            placeholder="Short Message" maxlength="600"
+                                            ng-model="editCampaign.info.termsAndCondition.customMessage">
                                     </div>
-                                    <div class="form-group col-md-2 col-xs-6"
-                                         ng-class="{'has-error': editCampaign.form3.headerId{{$index+1}}.$invalid && (editCampaign.form3.headerId{{$index+1}}.$dirty || editCampaign.form3.$submitted)}">
-                                        <input type="text" name="headerId{{$index+1}}" id="headerId"
-                                               class="form-control"
-                                               ng-model="editCampaign.info.termsAndCondition.offerDetails[$index].headerId"
-                                               placeholder="Voucher Code*" required>
-                                    </div>
-                                    <div class="form-group col-md-4 col-xs-6"
-                                         ng-class="{'has-error': editCampaign.form3.voucherDetails{{$index+1}}.$invalid && (editCampaign.form3.voucherDetails{{$index+1}}.$dirty || editCampaign.form3.$submitted)}">
-                                        <input type="text" name="voucherDetails{{$index+1}}" id="voucherDetails"
-                                               class="form-control"
-                                               ng-model="editCampaign.info.termsAndCondition.offerDetails[$index].voucherDetails"
-                                               placeholder="When 5 people dined*" required>
-                                    </div>
-                                    <div class="form-group col-md-2 col-xs-6"
-                                         ng-class="{'has-error': editCampaign.form3.voucherValue{{$index+1}}.$invalid && (editCampaign.form3.voucherValue{{$index+1}}.$dirty || editCampaign.form3.$submitted)}">
-                                        <input type="text" name="voucherValue{{$index+1}}" id="voucherValue"
-                                               class="form-control"
-                                               ng-model="editCampaign.info.termsAndCondition.offerDetails[$index].voucherValue"
-                                               placeholder="Rs. 500/-* off" required>
-                                    </div>
-                                    <div class="form-group col-md-1 col-xs-6">
-                                        <button type="button" class="btn btn-primary pull-left"
-                                                ng-click="addRow($index)"
-                                                ng-show="$last">
-                                            <i class="fa fa-plus"></i> Add
-                                        </button>
-                                    </div>
-                                    <div class="form-group col-md-1 col-xs-6">
-                                        <button type="button" class="btn btn-danger"
-                                                ng-click="deleteRow($event,$index)" value=""
-                                                ng-show="$index != 0">
-                                            <i class="fa fa-times"></i>
-                                        </button>
+                                </div>
+                            </div>
+                    <div class="row">
+                            <div class="col-md-12">
+                                <label>Voucher Settings<span class="note-text"> * </span></label>
+                            </div>
+                        </div>
+                    <div class="row">
+                            <div class="col-md-12" ng-if="editCampaign.info.type==='SURVEY'"><input type="checkbox" name="skipConfiguration"
+                                    ng-model="editCampaign.info.skipVoucher" /> This campaign will not assign vouchers, skip voucher configurations</div>
+                        </div>
+                    <div ng-if="!editCampaign.info.skipVoucher">
+                            <div class="row">
+
+                                <div
+                                    ng-repeat="item in editCampaign.info.termsAndCondition.offerDetails track by $index">
+                                    <div class="row">
+                                        <div class="form-group col-md-2 col-xs-6"
+                                            ng-class="{'has-error': editCampaign.form3.paxNo{{$index+1}}.$invalid && (editCampaign.form3.paxNo{{$index+1}}.$dirty || editCampaign.form3.$submitted)}">
+                                            <input type="text" name="paxNo{{$index+1}}" id="paxNo" class="form-control"
+                                                ui-validate="'isInteger($value)'"
+                                                ng-model="editCampaign.info.termsAndCondition.offerDetails[$index].paxNo"
+                                                placeholder="PAX*" required>
+                                        </div>
+                                        <div class="form-group col-md-2 col-xs-6"
+                                            ng-class="{'has-error': editCampaign.form3.headerId{{$index+1}}.$invalid && (editCampaign.form3.headerId{{$index+1}}.$dirty || editCampaign.form3.$submitted)}">
+                                            <input type="text" name="headerId{{$index+1}}" id="headerId"
+                                                class="form-control"
+                                                ng-model="editCampaign.info.termsAndCondition.offerDetails[$index].headerId"
+                                                placeholder="Voucher Code*" required>
+                                        </div>
+                                        <div class="form-group col-md-4 col-xs-6"
+                                            ng-class="{'has-error': editCampaign.form3.voucherDetails{{$index+1}}.$invalid && (editCampaign.form3.voucherDetails{{$index+1}}.$dirty || editCampaign.form3.$submitted)}">
+                                            <input type="text" name="voucherDetails{{$index+1}}" id="voucherDetails"
+                                                class="form-control"
+                                                ng-model="editCampaign.info.termsAndCondition.offerDetails[$index].voucherDetails"
+                                                placeholder="When 5 people dined*" required>
+                                        </div>
+                                        <div class="form-group col-md-2 col-xs-6"
+                                            ng-class="{'has-error': editCampaign.form3.voucherValue{{$index+1}}.$invalid && (editCampaign.form3.voucherValue{{$index+1}}.$dirty || editCampaign.form3.$submitted)}">
+                                            <input type="text" name="voucherValue{{$index+1}}" id="voucherValue"
+                                                class="form-control"
+                                                ng-model="editCampaign.info.termsAndCondition.offerDetails[$index].voucherValue"
+                                                placeholder="Rs. 500/-* off" required>
+                                        </div>
+                                        <div class="form-group col-md-1 col-xs-6">
+                                            <button type="button" class="btn btn-primary pull-left"
+                                                ng-click="addRow($index)" ng-show="$last">
+                                                <i class="fa fa-plus"></i> Add
+                                            </button>
+                                        </div>
+                                        <div class="form-group col-md-1 col-xs-6">
+                                            <button type="button" class="btn btn-danger"
+                                                ng-click="deleteRow($event,$index)" value="" ng-show="$index != 0">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </form>
                     <div class="row">
                         <div class="col-md-12">
@@ -424,56 +433,61 @@
                     <p>Here are your campaign details!</p>
                     <div class="col-lg-12">
                         <h4 class="pull-right">
-                            Status : <label ng-class="editCampaign.info.status==='A'?'text-success':'text-warning'">{{editCampaign.info.status|statusFullForm}}</label>
+                            Status : <label
+                                ng-class="editCampaign.info.status==='A'?'text-success':'text-warning'">{{editCampaign.info.status|statusFullForm}}</label>
                         </h4>
                     </div>
                     <table class="table table-bordered">
                         <tbody>
-                        <tr class="readonly-input">
-                            <td colspan="4" class="text-center">Campaign Created On :
-                                {{editCampaign.info.createdOn|date}}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Campaign Name : <b>{{editCampaign.info.name}}</b></td>
-                            <td>Campaign Type : <b>{{selected.subType.label}}</b></td>
-                            <td>Start Date : <b>{{editCampaign.info.startDate|date:'dd-MMM-yyyy'}}</b></td>
-                            <td>End Date : <b>{{editCampaign.info.endDate|date:'dd-MMM-yyyy'}}</b></td>
-                        </tr>
-                        <tr class="readonly-input">
-                            <td colspan="4" class="text-center">Survey Questionnaire</td>
-                        </tr>
-                        <tr ng-if="editCampaign.info.type==='NORMAL'">
-                            <td colspan="4"><em>Not Applicable</em></td>
-                        </tr>
-                        <tr ng-if="editCampaign.info.type==='SURVEY'" ng-repeat="ques in questionFormat">
-                            <td colspan="3">{{ques.description}}</td>
-                            <td colspan="3">{{ques.type}}</td>
-                        </tr>
-                        <tr class="readonly-input">
-                            <td colspan="4" class="text-center">Header Information</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">Header Title : <b>{{editCampaign.info.termsAndCondition.title}}</b></td>
-                            <td colspan="2">Description : <b>{{editCampaign.info.termsAndCondition.description}}</b>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="4">Header Settings</td>
-                        </tr>
-                        <tr ng-repeat="item in editCampaign.info.termsAndCondition.offerDetails">
-                            <td>PAX : <b>{{item.paxNo}}</b></td>
-                            <td>Voucher Code : <b>{{item.headerId}}</b></td>
-                            <td>Voucher Details : <b>{{item.voucherDetails}}</b></td>
-                            <td>Voucher Value: <b>{{item.voucherValue}}</b></td>
-                        </tr>
+                            <tr class="readonly-input">
+                                <td colspan="4" class="text-center">Campaign Created On :
+                                    {{editCampaign.info.createdOn|date}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Campaign Name : <b>{{editCampaign.info.name}}</b></td>
+                                <td>Campaign Type : <b>{{selected.subType.label}}</b></td>
+                                <td>Start Date : <b>{{editCampaign.info.startDate|date:'dd-MMM-yyyy'}}</b></td>
+                                <td>End Date : <b>{{editCampaign.info.endDate|date:'dd-MMM-yyyy'}}</b></td>
+                            </tr>
+                            <tr class="readonly-input">
+                                <td colspan="4" class="text-center">Survey Questionnaire</td>
+                            </tr>
+                            <tr ng-if="editCampaign.info.type==='NORMAL'">
+                                <td colspan="4"><em>Not Applicable</em></td>
+                            </tr>
+
+
+                            <tr ng-if="editCampaign.info.type==='SURVEY'" ng-repeat="ques in questionFormat">
+                                <td colspan="3">{{ques.description}}</td>
+                                <td colspan="3">{{ques.type}}</td>
+                            </tr>
+                            <tr class="readonly-input">
+                                <td colspan="4" class="text-center">Intro Information</td>
+                            </tr>
+                            <tr >
+                                <td colspan="2">Intro Title : <b>{{editCampaign.info.termsAndCondition.title}}</b></td>
+                                <td colspan="2">Description : <b>{{editCampaign.info.termsAndCondition.description}}</b>
+                                </td>
+                            </tr>
+                            <tr ng-show="editCampaign.info.skipVoucher">
+                                    <td colspan="4"><em>No voucher configurations</em></td>
+                                </tr>
+                            <tr ng-hide="editCampaign.info.skipVoucher">
+                                <td colspan="4">Voucher Settings</td>
+                            </tr>
+                            <tr  ng-hide="editCampaign.info.skipVoucher" ng-repeat="item in editCampaign.info.termsAndCondition.offerDetails">
+                                <td>PAX : <b>{{item.paxNo}}</b></td>
+                                <td>Voucher Code : <b>{{item.headerId}}</b></td>
+                                <td>Voucher Details : <b>{{item.voucherDetails}}</b></td>
+                                <td>Voucher Value: <b>{{item.voucherValue}}</b></td>
+                            </tr>
                         </tbody>
                     </table>
-                    <input class="btn btn-sm btn-default" type="button" wz-previous="logStep()" value="Previous"/>
-                    <input class="btn btn-sm btn-primary" type="submit" wz-next value="Submit"/>
+                    <input class="btn btn-sm btn-default" type="button" wz-previous="logStep()" value="Previous" />
+                    <input class="btn btn-sm btn-primary" type="submit" wz-next value="Submit" />
                 </wz-step>
             </wizard>
         </div>
     </div>
 </div>
-

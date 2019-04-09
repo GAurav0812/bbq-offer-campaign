@@ -108,7 +108,7 @@ gulp.task('webserver', function () {
     connect.server({
         root: 'dist',
         livereload: true,
-        port: 8888,
+        port: 4200,
         middleware: function (connect, opt) {
             return [apiserver,apiserver2]
         }

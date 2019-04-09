@@ -33,6 +33,7 @@ function EditCampaignCtrl($stateParams, $http, $rootScope, $filter, $scope, $q, 
         },
         smsTemplate: "",
         startDate: "",
+        skipVoucher : false,
         termsAndCondition: {
             title: "",
             description: "",
@@ -100,7 +101,7 @@ function EditCampaignCtrl($stateParams, $http, $rootScope, $filter, $scope, $q, 
     };
     $scope.deleteQuestion = function ($event, item, index) {
         var questionIndex = $scope.questionFormat.indexOf(item);
-        if ($event.which == 1)
+        if ($event.which === 1)
             $scope.questionFormat[questionIndex].answers.splice(index, 1);
     };
     $scope.setAnswerData = function (item, index) {
@@ -187,13 +188,27 @@ function EditCampaignCtrl($stateParams, $http, $rootScope, $filter, $scope, $q, 
             $scope.campaign.status = data.status === 'A';
             var userInfo = {};
             userInfo = angular.copy(data);
-            userInfo.termsAndCondition.offerDetails = JSON.parse(data.termsAndCondition.offerDetails);
+
             var sd = new Date(data.startDate);
             var ed = new Date(data.endDate);
             userInfo.startDate = $filter('date')(sd, 'yyyy-MM-dd');
             userInfo.endDate = $filter('date')(ed, 'yyyy-MM-dd');
             getBranchByCityId($scope.selected.city, BranchIdArr);
             $scope.editCampaign.info = angular.copy(userInfo);
+            if($scope.editCampaign.info.termsAndCondition.offerDetails){
+                $scope.editCampaign.info.termsAndCondition.offerDetails = JSON.parse(data.termsAndCondition.offerDetails);
+            } else {
+                $scope.editCampaign.info.skipVoucher = true
+                $scope.editCampaign.info.termsAndCondition.offerDetails = [
+                    {
+                        paxNo: "",
+                        headerId: "",
+                        voucherDetails: "",
+                        voucherValue: ""
+                    }
+                ]
+            }
+
         }, function (e) {
             //displayToast("error", 'Error while Fetching data.Try Again!')
         });
@@ -250,6 +265,7 @@ function EditCampaignCtrl($stateParams, $http, $rootScope, $filter, $scope, $q, 
     $scope.upload = {
         mobileCsv: undefined,
     };
+
     $scope.dynamic = 0;
     var uploadMobileService;
     $scope.uploadMobileCsv = function (file) {
@@ -337,7 +353,7 @@ function EditCampaignCtrl($stateParams, $http, $rootScope, $filter, $scope, $q, 
             }
         }
         var postMethod = '';
-        postMethod = $scope.editCampaign.type === 'NORMAL' ? 'normal' : 'survey';
+        postMethod = $scope.editCampaign.info.type === 'NORMAL' ? 'normal' : 'survey';
         switch ($scope.selected.type) {
             case 'NORMAL':
                 $scope.editCampaign.info.questionTemplate = null;
@@ -347,7 +363,7 @@ function EditCampaignCtrl($stateParams, $http, $rootScope, $filter, $scope, $q, 
                 $scope.editCampaign.info.questionTemplate.numberOfQuestion = parseInt($scope.editCampaign.info.questionTemplate.numberOfQuestion);
                 break;
         }
-        var createCampaign = new HttpService("campaign/update/normal");
+        var createCampaign = new HttpService("campaign/update/" + postMethod);
         createCampaign.post('', Campaign.updateObject($scope.editCampaign.info, city, branch)).then(function (response) {
             toastr.success("Campaign updated successfully!", "Success");
             $scope.editCampaign.info = CampaignObj;

@@ -448,3 +448,8 @@
     0%, 39%, 100% { opacity: 0; }
     40% { opacity: 1; }
 }
+.selected-menu{
+    background-color: #233255 !important;
+    color: white !important;
+    border-left: 3px solid #e99d1a;
+}

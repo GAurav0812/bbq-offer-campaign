@@ -38,7 +38,9 @@
     "angular-xeditable": "~0.1.9",
     "angular-confirm-modal": "^1.2.6",
     "angular-ui-select": "^0.19.4",
-    "angular-sanitize": "1.6.1"
+    "angular-sanitize": "1.6.1",
+    "amitava82-angular-multiselect": "^1.2.0",
+    "file-saver": "^2.0.0"
   },
   "repository": {
     "type": "git",

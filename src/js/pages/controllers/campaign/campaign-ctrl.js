@@ -150,6 +150,7 @@ function CampaignCtrl($scope, $http, $filter, $q, $rootScope, $timeout, Validati
         },
         smsTemplate: "Your celebration starts when you get to share this exclusive code %cpn%, during your visit to Barbeque Nation.",
         startDate: "",
+        skipVoucher : false,
         termsTemplate: {
             title: "",
             description: "",
@@ -405,6 +406,7 @@ function CampaignCtrl($scope, $http, $filter, $q, $rootScope, $timeout, Validati
         var postMethod = '';
         $scope.newCampaign.info.subTypeId = $scope.selected.subType.id;
         postMethod = $scope.selected.type === 'NORMAL' ? 'normal' : 'survey';
+        $scope.newCampaign.info.type = $scope.selected.type;
         switch ($scope.selected.type) {
             case 'NORMAL':
                 $scope.newCampaign.info.questionTemplate = null;
