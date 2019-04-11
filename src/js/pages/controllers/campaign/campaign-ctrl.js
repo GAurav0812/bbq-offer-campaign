@@ -23,9 +23,9 @@ function CampaignCtrl($scope, $http, $filter, $q, $rootScope, $timeout, Validati
         $scope.campaignDataLoaded = false;
         var campaignList = new HttpService("campaign/list");
         campaignList.get("").then(function (data) {
-            $scope.normalCampaignListMasterData = $filter('filter')( data.campaigns, {type: "NORMAL"}).slice().reverse();
+            $scope.normalCampaignListMasterData = $filter('filter')(data.campaigns, {type: "NORMAL"}).slice().reverse();
             $scope.normalCampaignListData = [].concat($scope.normalCampaignListMasterData);
-            $scope.surveyCampaignListMasterData = $filter('filter')( data.campaigns, {type: "SURVEY"}).slice().reverse();
+            $scope.surveyCampaignListMasterData = $filter('filter')(data.campaigns, {type: "SURVEY"}).slice().reverse();
             $scope.surveyCampaignListData = [].concat($scope.surveyCampaignListMasterData);
             $scope.campaignDataLoaded = true;
         }, function (data) {
@@ -150,7 +150,7 @@ function CampaignCtrl($scope, $http, $filter, $q, $rootScope, $timeout, Validati
         },
         smsTemplate: "Your celebration starts when you get to share this exclusive code %cpn%, during your visit to Barbeque Nation.",
         startDate: "",
-        skipVoucher : false,
+        skipVoucher: false,
         termsTemplate: {
             title: "",
             description: "",

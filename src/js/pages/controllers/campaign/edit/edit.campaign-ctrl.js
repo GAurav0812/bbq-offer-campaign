@@ -251,7 +251,17 @@ function EditCampaignCtrl($stateParams, $http, $rootScope, $filter, $scope, $q, 
         var date = new Date(dt);
         $scope.endMinDate = date;
     }
-
+    var viewPlaceHolderModal;
+    $scope.openPlaceHolderInfoBox = function () {
+        viewPlaceHolderModal = $uibModal.open({
+            animation: true,
+            templateUrl: 'templates/campaign/view.placeholder.html',
+            size: 'md',
+            backdrop: 'static',
+            keyboard: false,
+            scope: $scope
+        });
+    };
     $scope.addRow = function (index) {
         var obj = {paxNo: "", headerId: "", voucherDetails: "", voucherValue: ""};
         if ($scope.editCampaign.info.termsAndCondition.offerDetails.length <= index + 1) {
